@@ -68,6 +68,8 @@ Tell Claude to install it:
 
 Claude will handle the rest. Then just describe your situation and ask away.
 
+**No install needed to start.** The Claude skill works standalone — Claude answers from its embedded BetrVG knowledge. Installing the CLI adds live betriebsrat.de content and structured outputs.
+
 ---
 
 ## What it knows
@@ -105,7 +107,7 @@ betriebsrat doctor
 betriebsrat ask "Ich wurde entlassen. Was nun?"
 betriebsrat rights-check "KI-Überwachungssystem einführen" --agent
 betriebsrat decide "Massenentlassung 20 Personen" --json
-betriebsrat sozialplan-calc --salary 3500 --years 7
+betriebsrat sozialplan-calc --salary 3500 --years 7 --age 48
 betriebsrat nachteilsausgleich --salary 3500 --years 7 --no-ia-attempted
 betriebsrat check-anhoerung "<text des Anhörungsschreibens>"
 betriebsrat deadline kuendigung --from 2026-05-10
@@ -113,6 +115,8 @@ betriebsrat law 102
 betriebsrat bv-template homeoffice
 betriebsrat ki-check "Teams-Analysefunktion zur Produktivitätsmessung"
 betriebsrat massenentlassung --employees 120 --affected 25
+betriebsrat serve                      # web UI at http://localhost:7890
+betriebsrat serve --host 0.0.0.0       # share on local network
 ```
 
 ### MCP server
@@ -211,6 +215,8 @@ Sagen Sie Claude, es soll installieren:
 
 Claude übernimmt den Rest. Dann beschreiben Sie einfach Ihre Situation.
 
+**Keine Installation nötig für den Einstieg.** Das Claude-Skill funktioniert eigenständig — Claude antwortet aus seinem eingebetteten BetrVG-Wissen. Die CLI-Installation ergänzt live Inhalte von betriebsrat.de und strukturierte Ausgaben.
+
 ---
 
 ## Was das Tool weiß
@@ -248,7 +254,7 @@ betriebsrat doctor
 betriebsrat ask "Ich wurde entlassen. Was nun?"
 betriebsrat rights-check "KI-Überwachungssystem einführen" --agent
 betriebsrat decide "Massenentlassung 20 Personen" --json
-betriebsrat sozialplan-calc --salary 3500 --years 7
+betriebsrat sozialplan-calc --salary 3500 --years 7 --age 48
 betriebsrat nachteilsausgleich --salary 3500 --years 7 --no-ia-attempted
 betriebsrat check-anhoerung "<text des Anhörungsschreibens>"
 betriebsrat deadline kuendigung --from 2026-05-10
@@ -256,6 +262,8 @@ betriebsrat law 102
 betriebsrat bv-template homeoffice
 betriebsrat ki-check "Teams-Analysefunktion zur Produktivitätsmessung"
 betriebsrat massenentlassung --employees 120 --affected 25
+betriebsrat serve                      # Web-UI unter http://localhost:7890
+betriebsrat serve --host 0.0.0.0       # Im lokalen Netzwerk teilen
 ```
 
 ### Ausgabeformate
