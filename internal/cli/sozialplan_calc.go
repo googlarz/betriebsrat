@@ -249,14 +249,25 @@ func runSozialplanCSV(cmd *cobra.Command, flags *rootFlags, csvFile string, defa
 
 		rowFactor := defaultFactor
 		if len(parts) >= 7 && parts[6] != "" {
-			rowFactor, _ = strconv.ParseFloat(parts[6], 64)
-			if rowFactor <= 0 {
-				rowFactor = defaultFactor
+			f, parseErr := strconv.ParseFloat(parts[6], 64)
+			if parseErr != nil || f <= 0 {
+				fmt.Fprintf(cmd.ErrOrStderr(), "Zeile %d (%s): ungültiger Faktor %q — Standard %.2f wird verwendet.\n", lineNum, parts[0], parts[6], defaultFactor)
+			} else {
+				rowFactor = f
 			}
 		}
 		rowMaxCap := defaultMaxCap
 		if len(parts) >= 8 && parts[7] != "" {
-			rowMaxCap, _ = strconv.ParseFloat(parts[7], 64)
+			f, parseErr := strconv.ParseFloat(parts[7], 64)
+			if parseErr != nil {
+				fmt.Fprintf(cmd.ErrOrStderr(), "Zeile %d (%s): ungültige Kappungsgrenze %q — kein Cap wird angewendet.\n", lineNum, parts[0], parts[7])
+				rowMaxCap = 0
+			} else if f > 0 && f < 1000 {
+				fmt.Fprintf(cmd.ErrOrStderr(), "Zeile %d (%s): Kappungsgrenze %.2f EUR erscheint sehr niedrig — bei deutschem Zahlenformat bitte Tausenderpunkt weglassen (z.B. 80000 statt 80.000).\n", lineNum, parts[0], f)
+				rowMaxCap = f
+			} else {
+				rowMaxCap = f
+			}
 		}
 
 		result := calcSozialplan(sozialplanInput{
