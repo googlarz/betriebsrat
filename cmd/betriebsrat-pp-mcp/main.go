@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	mcptools "betriebsrat/internal/mcp"
+	mcptools "github.com/googlarz/betriebsrat/internal/mcp"
 	"github.com/mark3labs/mcp-go/server"
 )
 

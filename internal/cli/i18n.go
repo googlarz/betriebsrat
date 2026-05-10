@@ -1,6 +1,6 @@
 package cli
 
-import "betriebsrat/internal/betrvg"
+import "github.com/googlarz/betriebsrat/internal/betrvg"
 
 // tr returns the German string when lang is "de" (or anything other than "en"),
 // and the English string when lang is "en".

@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"betriebsrat/internal/client"
-	"betriebsrat/internal/store"
+	"github.com/googlarz/betriebsrat/internal/client"
+	"github.com/googlarz/betriebsrat/internal/store"
 )
 
 // isNetworkError returns true for errors caused by network connectivity issues

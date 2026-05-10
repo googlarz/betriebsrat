@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"betriebsrat/internal/betrvg"
+	"github.com/googlarz/betriebsrat/internal/betrvg"
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"

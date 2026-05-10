@@ -1,4 +1,4 @@
-module betriebsrat
+module github.com/googlarz/betriebsrat
 
 go 1.26.3
 

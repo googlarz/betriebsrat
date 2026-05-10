@@ -13,9 +13,9 @@ import (
 	"strings"
 	"time"
 
-	"betriebsrat/internal/client"
-	"betriebsrat/internal/config"
-	"betriebsrat/internal/store"
+	"github.com/googlarz/betriebsrat/internal/client"
+	"github.com/googlarz/betriebsrat/internal/config"
+	"github.com/googlarz/betriebsrat/internal/store"
 	"github.com/spf13/cobra"
 )
 

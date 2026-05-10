@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"betriebsrat/internal/store"
+	"github.com/googlarz/betriebsrat/internal/store"
 	"github.com/spf13/cobra"
 )
 

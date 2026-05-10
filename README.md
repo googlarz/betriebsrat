@@ -69,7 +69,7 @@ npx -y @mvanhorn/printing-press install betriebsrat --cli-only
 ```bash
 git clone https://github.com/googlarz/betriebsrat.git
 cd betriebsrat
-go install ./cmd/betriebsrat/
+go install github.com/googlarz/betriebsrat/cmd/betriebsrat@latest
 ```
 
 ### Pre-built binary
@@ -488,7 +488,7 @@ npx -y @mvanhorn/printing-press install betriebsrat --cli-only
 ```bash
 git clone https://github.com/googlarz/betriebsrat.git
 cd betriebsrat
-go install ./cmd/betriebsrat/
+go install github.com/googlarz/betriebsrat/cmd/betriebsrat@latest
 ```
 
 ### Installation prüfen

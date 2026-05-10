@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"betriebsrat/internal/betrvg"
+	"github.com/googlarz/betriebsrat/internal/betrvg"
 	"github.com/spf13/cobra"
 )
 

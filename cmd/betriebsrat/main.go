@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	"betriebsrat/internal/cli"
+	"github.com/googlarz/betriebsrat/internal/cli"
 )
 
 func main() {

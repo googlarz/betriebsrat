@@ -4,8 +4,8 @@
 package client
 
 import (
-	"betriebsrat/internal/cliutil"
-	"betriebsrat/internal/config"
+	"github.com/googlarz/betriebsrat/internal/cliutil"
+	"github.com/googlarz/betriebsrat/internal/config"
 	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
@@ -228,7 +228,7 @@ func (c *Client) do(method, path string, params map[string]string, body any, hea
 			req.Header.Set(k, v)
 		}
 		if req.Header.Get("User-Agent") == "" {
-			req.Header.Set("User-Agent", "betriebsrat/")
+			req.Header.Set("User-Agent", "github.com/googlarz/betriebsrat/")
 		}
 
 		resp, err := c.HTTPClient.Do(req)

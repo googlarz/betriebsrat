@@ -13,8 +13,8 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"betriebsrat/internal/client"
-	"betriebsrat/internal/config"
+	"github.com/googlarz/betriebsrat/internal/client"
+	"github.com/googlarz/betriebsrat/internal/config"
 	"github.com/spf13/cobra"
 )
 

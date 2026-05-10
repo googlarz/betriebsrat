@@ -12,11 +12,11 @@ import (
 	"strings"
 	"time"
 
-	"betriebsrat/internal/cli"
-	"betriebsrat/internal/client"
-	"betriebsrat/internal/config"
-	"betriebsrat/internal/mcp/cobratree"
-	"betriebsrat/internal/store"
+	"github.com/googlarz/betriebsrat/internal/cli"
+	"github.com/googlarz/betriebsrat/internal/client"
+	"github.com/googlarz/betriebsrat/internal/config"
+	"github.com/googlarz/betriebsrat/internal/mcp/cobratree"
+	"github.com/googlarz/betriebsrat/internal/store"
 	mcplib "github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
 )

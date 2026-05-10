@@ -4,7 +4,7 @@
 package cli
 
 import (
-	"betriebsrat/internal/store"
+	"github.com/googlarz/betriebsrat/internal/store"
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
