@@ -193,6 +193,16 @@ See README.md or the bundled SKILL.md for recipes.`,
 		default:
 			return fmt.Errorf("invalid --data-source value %q: must be auto, live, or local", flags.dataSource)
 		}
+		// Warn when local sync DB is stale (>30 days), except for commands that don't use it.
+		skipStaleness := map[string]bool{"doctor": true, "sync": true, "version": true, "help": true, "completion": true, "serve": true}
+		if !skipStaleness[cmd.Name()] && flags.dataSource != "live" {
+			dbPath := defaultDBPath("betriebsrat-pp-cli")
+			if fi, err := os.Stat(dbPath); err == nil {
+				if ageDays := int(time.Since(fi.ModTime()).Hours() / 24); ageDays > 30 {
+					fmt.Fprintf(os.Stderr, "warning: local knowledge base is %d days old — run 'betriebsrat-pp-cli sync' to refresh betriebsrat.de content\n", ageDays)
+				}
+			}
+		}
 		return nil
 	}
 	rootCmd.AddCommand(newGlossaryCmd(flags))

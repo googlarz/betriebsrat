@@ -5,6 +5,39 @@ import (
 	"unicode"
 )
 
+// StemDE strips common German morphological suffixes to improve keyword matching.
+// "kündigt" → "kündig", "kündigung" → "kündig", "einführung" → "einführ".
+func StemDE(word string) string {
+	word = strings.ToLower(word)
+	const minStem = 4
+	for _, sfx := range []string{
+		"ungsrecht", "ungsrechts",
+		"ierungen", "ierung",
+		"ungen", "igkeit", "heit", "keit", "schaft",
+		"tionen", "tion",
+		"lichen", "licher", "liches", "liche", "lich",
+		"ischen", "ischer", "isches", "ische", "isch",
+		"enden", "ender", "endes", "ende",
+		"ierten", "ierte", "iert",
+		"ung", "igt",
+	} {
+		if len(word)-len(sfx) >= minStem && strings.HasSuffix(word, sfx) {
+			return word[:len(word)-len(sfx)]
+		}
+	}
+	for _, sfx := range []string{"sten", "stem", "ster", "stes", "ste", "ten", "ter", "tes", "tem"} {
+		if len(word)-len(sfx) >= minStem && strings.HasSuffix(word, sfx) {
+			return word[:len(word)-len(sfx)]
+		}
+	}
+	for _, sfx := range []string{"en", "er", "es", "em", "et", "te", "t"} {
+		if len(word)-len(sfx) >= minStem && strings.HasSuffix(word, sfx) {
+			return word[:len(word)-len(sfx)]
+		}
+	}
+	return word
+}
+
 func normalizeTerm(s string) string {
 	return strings.Map(func(r rune) rune {
 		if unicode.IsSpace(r) {

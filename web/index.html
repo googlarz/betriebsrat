@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Betriebsrat Berater</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --border: #2a2d3e;
+    --accent: #4f8ef7;
+    --accent2: #22c55e;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --tag-blue: #1e3a8a;
+    --tag-green: #14532d;
+    --tag-orange: #7c2d12;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+  header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: var(--surface); }
+  header h1 { font-size: 18px; font-weight: 600; }
+  header .subtitle { font-size: 13px; color: var(--muted); }
+  .lang-toggle { margin-left: auto; display: flex; gap: 4px; }
+  .lang-toggle button { padding: 4px 10px; border: 1px solid var(--border); background: transparent; color: var(--muted); border-radius: 4px; cursor: pointer; font-size: 13px; }
+  .lang-toggle button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  #chat { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; max-width: 800px; width: 100%; margin: 0 auto; }
+
+  .msg { display: flex; flex-direction: column; gap: 6px; }
+  .msg.user { align-items: flex-end; }
+  .msg.bot  { align-items: flex-start; }
+  .bubble { padding: 12px 16px; border-radius: 12px; max-width: 90%; font-size: 14px; line-height: 1.6; }
+  .msg.user .bubble { background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+  .msg.bot  .bubble { background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { padding: 2px 8px; border-radius: 100px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .tag.blue { background: var(--tag-blue); color: #93c5fd; }
+  .tag.green { background: var(--tag-green); color: #86efac; }
+  .tag.orange { background: var(--tag-orange); color: #fcd34d; }
+
+  .answer { margin-top: 8px; }
+  .para-list { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+  .para-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .para-num { font-weight: 700; color: var(--accent); min-width: 32px; }
+  .para-url { color: var(--accent); font-size: 12px; text-decoration: none; }
+  .para-url:hover { text-decoration: underline; }
+
+  .actions-list { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; counter-reset: action; }
+  .actions-list li { counter-increment: action; list-style: none; padding-left: 24px; position: relative; font-size: 13px; color: var(--text); }
+  .actions-list li::before { content: counter(action)"."; position: absolute; left: 0; color: var(--muted); }
+
+  .deadline-box { margin-top: 8px; padding: 8px 12px; background: rgba(245,158,11,.12); border-left: 3px solid var(--warn); border-radius: 0 6px 6px 0; font-size: 13px; color: var(--warn); }
+  .disclaimer { margin-top: 10px; font-size: 11px; color: var(--muted); font-style: italic; }
+
+  .suggestions { max-width: 800px; width: 100%; margin: 0 auto; padding: 0 24px 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .suggestion { padding: 6px 14px; border: 1px solid var(--border); border-radius: 100px; font-size: 13px; cursor: pointer; background: var(--surface); color: var(--muted); transition: all .15s; white-space: nowrap; }
+  .suggestion:hover { border-color: var(--accent); color: var(--text); }
+
+  .input-bar { border-top: 1px solid var(--border); background: var(--surface); padding: 16px 24px; display: flex; gap: 8px; max-width: 800px; width: 100%; margin: 0 auto; }
+  footer { border-top: 1px solid var(--border); background: var(--surface); display: flex; justify-content: center; }
+  .input-bar input { flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-size: 14px; outline: none; }
+  .input-bar input:focus { border-color: var(--accent); }
+  .input-bar button { padding: 10px 20px; background: var(--accent); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: opacity .15s; }
+  .input-bar button:hover { opacity: .85; }
+  .input-bar button:disabled { opacity: .4; cursor: not-allowed; }
+
+  #status { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .6s linear infinite; margin-right: 8px; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>⚖️ Betriebsrat Berater</h1>
+    <div class="subtitle">BetrVG-Wissensdatenbank • offline • kostenlos</div>
+  </div>
+  <div class="lang-toggle">
+    <button id="btn-de" class="active" onclick="setLang('de')">DE</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<div id="chat">
+  <div id="status"><span class="spinner"></span> Lade BetrVG-Wissensdatenbank…</div>
+</div>
+
+<div class="suggestions" id="suggestions"></div>
+
+<footer>
+  <div class="input-bar">
+    <input id="q" type="text" placeholder="Ihre Frage…" disabled onkeydown="if(event.key==='Enter')send()">
+    <button id="send-btn" onclick="send()" disabled>Senden</button>
+  </div>
+</footer>
+
+<script src="wasm_exec.js"></script>
+<script>
+let lang = 'de';
+let ready = false;
+
+const SUGGESTIONS = {
+  de: [
+    'Arbeitgeber will KI-System einführen. Haben wir ein Mitbestimmungsrecht?',
+    'Ich wurde fristlos entlassen. Was nun?',
+    'Betriebsänderung ohne Sozialplan — was kann der BR tun?',
+    'Homeoffice-Regelung — brauchen wir eine Betriebsvereinbarung?',
+    'Massenentlassung: Welche Fristen gelten?',
+    'Schwerbehinderung und Kündigung — was ist zu beachten?',
+  ],
+  en: [
+    'Employer wants to introduce an AI monitoring system. Do we have co-determination rights?',
+    'I was dismissed without notice. What now?',
+    'Operational restructuring without a Sozialplan — what can the BR do?',
+    'Do we need a Betriebsvereinbarung for remote work?',
+    'Mass layoff: what are the legal deadlines?',
+    'Disability and dismissal — what applies?',
+  ],
+};
+
+function setLang(l) {
+  lang = l;
+  document.getElementById('btn-de').classList.toggle('active', l === 'de');
+  document.getElementById('btn-en').classList.toggle('active', l === 'en');
+  document.getElementById('q').placeholder = l === 'de' ? 'Ihre Frage…' : 'Your question…';
+  document.getElementById('send-btn').textContent = l === 'de' ? 'Senden' : 'Send';
+  renderSuggestions();
+}
+
+function renderSuggestions() {
+  const el = document.getElementById('suggestions');
+  el.innerHTML = '';
+  SUGGESTIONS[lang].forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'suggestion';
+    btn.textContent = s.length > 60 ? s.slice(0, 57) + '…' : s;
+    btn.title = s;
+    btn.onclick = () => { document.getElementById('q').value = s; send(); };
+    el.appendChild(btn);
+  });
+}
+
+function addMsg(role, html) {
+  const chat = document.getElementById('chat');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  if (role === 'user') {
+    bubble.textContent = html;
+  } else {
+    bubble.innerHTML = html;
+  }
+  div.appendChild(bubble);
+  chat.appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  return bubble;
+}
+
+function tagHtml(label, cls) {
+  return `<span class="tag ${cls}">${label}</span>`;
+}
+
+function rightTypeColor(rt) {
+  if (!rt) return 'blue';
+  const low = rt.toLowerCase();
+  if (low.includes('erzwingbar')) return 'green';
+  if (low.includes('zustimmung')) return 'green';
+  if (low.includes('mitwirkung')) return 'orange';
+  return 'blue';
+}
+
+function send() {
+  if (!ready) return;
+  const inp = document.getElementById('q');
+  const q = inp.value.trim();
+  if (!q) return;
+  inp.value = '';
+  addMsg('user', q);
+
+  const thinkBubble = addMsg('bot', '<span class="spinner"></span>');
+
+  setTimeout(() => {
+    let result;
+    try {
+      const raw = betriebsratAsk(q, lang);
+      result = JSON.parse(raw);
+    } catch (e) {
+      thinkBubble.innerHTML = '<em>Fehler beim Laden der Antwort.</em>';
+      return;
+    }
+
+    let html = '';
+
+    // Tags row
+    const tags = [];
+    if (result.classification) tags.push(tagHtml(result.classification, 'blue'));
+    if (result.right_type) tags.push(tagHtml(result.right_type, rightTypeColor(result.right_type)));
+    if (tags.length) html += `<div class="tags">${tags.join('')}</div>`;
+
+    // Answer
+    if (result.answer) html += `<div class="answer">${escHtml(result.answer)}</div>`;
+
+    // Paragraphs
+    if (result.paragraphs && result.paragraphs.length) {
+      html += '<div class="para-list">';
+      result.paragraphs.slice(0, 5).forEach(p => {
+        const link = p.topic_url ? ` <a class="para-url" href="${escHtml(p.topic_url)}" target="_blank" rel="noopener">↗</a>` : '';
+        html += `<div class="para-item"><span class="para-num">§ ${p.paragraph}</span><span>${escHtml(p.title)}</span>${link}</div>`;
+      });
+      html += '</div>';
+    }
+
+    // Actions
+    if (result.actions && result.actions.length) {
+      html += '<ol class="actions-list">';
+      result.actions.forEach(a => { html += `<li>${escHtml(a)}</li>`; });
+      html += '</ol>';
+    }
+
+    // Deadline
+    if (result.deadline) {
+      html += `<div class="deadline-box">⏰ ${escHtml(result.deadline)}</div>`;
+    }
+
+    // Disclaimer
+    if (result.disclaimer) {
+      html += `<div class="disclaimer">⚠️ ${escHtml(result.disclaimer)}</div>`;
+    }
+
+    thinkBubble.innerHTML = html;
+  }, 10);
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function init() {
+  const go = new Go();
+  const result = await WebAssembly.instantiateStreaming(fetch('betriebsrat.wasm'), go.importObject);
+  go.run(result.instance);
+  ready = true;
+  document.getElementById('status').remove();
+  document.getElementById('q').disabled = false;
+  document.getElementById('send-btn').disabled = false;
+  renderSuggestions();
+
+  // Welcome message
+  addMsg('bot', lang === 'de'
+    ? 'Hallo! Ich beantworte Fragen zum deutschen Betriebsverfassungsgesetz (BetrVG) — für Betriebsratsmitglieder und Arbeitnehmer. Stellen Sie Ihre Frage oder wählen Sie ein Beispiel.'
+    : 'Hello! I answer questions about German Works Constitution Law (BetrVG) — for works council members and employees. Ask a question or pick an example below.');
+}
+
+init().catch(e => {
+  document.getElementById('status').textContent = 'Fehler beim Laden: ' + e.message;
+});
+</script>
+</body>
+</html>

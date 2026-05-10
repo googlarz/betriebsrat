@@ -67,7 +67,7 @@ type ScoredParagraph struct {
 }
 
 // ByKeywordsScored returns paragraphs ranked by how many input terms match their keywords.
-// Exact keyword match scores 3; substring match scores 1. Multiple matches accumulate.
+// Exact keyword match scores 3; stem match scores 2; substring match scores 1.
 func ByKeywordsScored(terms []string) []ScoredParagraph {
 	scores := map[int]int{}
 	for _, term := range terms {
@@ -75,6 +75,7 @@ func ByKeywordsScored(terms []string) []ScoredParagraph {
 		if len(term) < 3 {
 			continue
 		}
+		termStem := StemDE(term)
 		for _, p := range paragraphs {
 			for _, kw := range p.Keywords {
 				kwNorm := normalizeTerm(kw)
@@ -82,6 +83,15 @@ func ByKeywordsScored(terms []string) []ScoredParagraph {
 					scores[p.Number] += 3
 				} else if strings.Contains(kwNorm, term) || strings.Contains(term, kwNorm) {
 					scores[p.Number] += 1
+				} else {
+					kwStem := StemDE(kwNorm)
+					if len(termStem) >= 4 && len(kwStem) >= 4 {
+						if termStem == kwStem {
+							scores[p.Number] += 2
+						} else if strings.Contains(kwStem, termStem) || strings.Contains(termStem, kwStem) {
+							scores[p.Number] += 1
+						}
+					}
 				}
 			}
 		}

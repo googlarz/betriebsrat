@@ -226,6 +226,32 @@ func buildEmployeeAnswer(lang, question string, strongest betrvg.CoDetermination
 	low := strings.ToLower(question)
 	var sb strings.Builder
 
+	// Non-BetrVG special laws — AGG, Mutterschutz, Elternzeit, SGB IX
+	if containsAny(low, "diskriminierung", "benachteiligung", "discrimination", "belästigung", "agg", "gleichbehandlung") {
+		sb.WriteString(tr(lang,
+			"Das Allgemeine Gleichbehandlungsgesetz (AGG) schützt Sie vor Benachteiligung aufgrund von Rasse, Geschlecht, Religion, Behinderung, Alter oder sexueller Identität. Wenden Sie sich an den Betriebsrat (§ 84 BetrVG) und reichen Sie ggf. eine Beschwerde nach § 13 AGG ein. Klagefrist: 3 Monate nach Kenntnis der Benachteiligung.",
+			"The General Equal Treatment Act (AGG) protects you from discrimination based on race, gender, religion, disability, age, or sexual identity. Contact the works council (§ 84 BetrVG) and consider filing a complaint under § 13 AGG. Claim deadline: 3 months after becoming aware of the discrimination."))
+		return sb.String()
+	}
+	if containsAny(low, "mutterschutz", "schwanger", "mutterschaft", "maternity", "pregnant", "pregnancy") {
+		sb.WriteString(tr(lang,
+			"Schwangere und Mütter genießen besonderen Kündigungsschutz nach dem Mutterschutzgesetz (MuSchG). Eine Kündigung während der Schwangerschaft und bis 4 Monate nach der Entbindung ist grundsätzlich unwirksam (§ 17 MuSchG) — auch ohne Betriebsratsbeteiligung. Benachrichtigen Sie Ihren Arbeitgeber schriftlich über die Schwangerschaft und informieren Sie den Betriebsrat.",
+			"Pregnant employees and new mothers have special dismissal protection under the Maternity Protection Act (MuSchG). Dismissal during pregnancy and up to 4 months after birth is generally void (§ 17 MuSchG) — even without works council involvement. Notify your employer of the pregnancy in writing and inform the works council."))
+		return sb.String()
+	}
+	if containsAny(low, "elternzeit", "parental leave", "elterngeld", "beeg") {
+		sb.WriteString(tr(lang,
+			"Während der Elternzeit (BEEG) besteht ein besonderer Kündigungsschutz. Eine Kündigung ist ohne behördliche Zulassung (Landesbehörde) in der Regel unzulässig (§ 18 BEEG). Elternzeit muss spätestens 7 Wochen vor Beginn schriftlich angemeldet werden (§ 16 BEEG). Der Betriebsrat hat ein Überwachungsrecht (§ 80 BetrVG).",
+			"During parental leave (BEEG) there is special dismissal protection. Dismissal without official authorization (state authority) is generally prohibited (§ 18 BEEG). Parental leave must be registered in writing at least 7 weeks before it begins (§ 16 BEEG). The works council has a monitoring right (§ 80 BetrVG)."))
+		return sb.String()
+	}
+	if containsAny(low, "schwerbehinderung", "behinderung", "sgb ix", "inklusionsamt", "integrationsamt", "disability", "severely disabled") {
+		sb.WriteString(tr(lang,
+			"Schwerbehinderte Arbeitnehmer (GdB ≥ 50 oder Gleichstellung) genießen besonderen Kündigungsschutz. Eine Kündigung bedarf der vorherigen Zustimmung des Inklusionsamtes (§ 168 SGB IX). Ohne diese Zustimmung ist die Kündigung unwirksam. Der Betriebsrat muss ebenfalls nach § 102 BetrVG angehört werden. Zusätzlich gilt: Der Arbeitgeber muss die Schwerbehindertenvertretung (SBV) einbeziehen.",
+			"Severely disabled employees (degree of disability ≥ 50 or equivalent status) have special dismissal protection. Dismissal requires prior approval from the Inklusionsamt (§ 168 SGB IX). Without approval the dismissal is void. The works council must also be heard (§ 102 BetrVG). Additionally: the employer must involve the Schwerbehindertenvertretung (SBV)."))
+		return sb.String()
+	}
+
 	// Was procedure followed?
 	if containsAny(low, "entlassen", "kündigung", "gekündigt", "dismissed", "fired", "termination") {
 		sb.WriteString(tr(lang,
@@ -258,6 +284,36 @@ func buildEmployeeAnswer(lang, question string, strongest betrvg.CoDetermination
 func buildEmployeeActions(lang, question string, strongest betrvg.CoDeterminationType, paras []betrvg.Paragraph) []string {
 	low := strings.ToLower(question)
 	var actions []string
+
+	if containsAny(low, "diskriminierung", "benachteiligung", "discrimination", "belästigung", "agg", "gleichbehandlung") {
+		return []string{
+			tr(lang, "Beschwerde nach § 13 AGG beim Arbeitgeber oder Betriebsrat innerhalb von 3 Monaten einreichen", "File a complaint under § 13 AGG with the employer or works council within 3 months"),
+			tr(lang, "Antidiskriminierungsstelle des Bundes (ADS) kontaktieren: www.antidiskriminierungsstelle.de", "Contact the Federal Anti-Discrimination Agency (ADS): www.antidiskriminierungsstelle.de"),
+			tr(lang, "Schadensersatz- und Entschädigungsklage nach § 15 AGG beim Arbeitsgericht innerhalb von 3 Monaten", "Bring a claim for damages under § 15 AGG at the labour court within 3 months"),
+		}
+	}
+	if containsAny(low, "mutterschutz", "schwanger", "mutterschaft", "maternity", "pregnant", "pregnancy") {
+		return []string{
+			tr(lang, "Schwangerschaft dem Arbeitgeber schriftlich mitteilen (§ 15 MuSchG) — löst Sonderkündigungsschutz aus", "Notify the employer of the pregnancy in writing (§ 15 MuSchG) — triggers special dismissal protection"),
+			tr(lang, "Aufsichtsbehörde (Gewerbeaufsicht oder Landesamt für Arbeitsschutz) informieren", "Notify the supervisory authority (Gewerbeaufsicht or Landesamt für Arbeitsschutz)"),
+			tr(lang, "Betriebsrat informieren und um Unterstützung bitten (§ 80 BetrVG)", "Inform the works council and request support (§ 80 BetrVG)"),
+		}
+	}
+	if containsAny(low, "elternzeit", "parental leave", "elterngeld", "beeg") {
+		return []string{
+			tr(lang, "Elternzeit schriftlich beim Arbeitgeber anmelden — mind. 7 Wochen vor Beginn (§ 16 BEEG)", "Register parental leave in writing with the employer — at least 7 weeks before start (§ 16 BEEG)"),
+			tr(lang, "Elterngeld bei der Elterngeldstelle beantragen (online: elterngeld-digital.de)", "Apply for Elterngeld at the Elterngeldstelle (online: elterngeld-digital.de)"),
+			tr(lang, "Bei Kündigung während Elternzeit: Zustimmung der Landesbehörde prüfen (§ 18 BEEG)", "If dismissed during parental leave: check whether state authority approval was obtained (§ 18 BEEG)"),
+		}
+	}
+	if containsAny(low, "schwerbehinderung", "behinderung", "sgb ix", "inklusionsamt", "integrationsamt", "disability", "severely disabled") {
+		return []string{
+			tr(lang, "GdB (Grad der Behinderung) beim Versorgungsamt feststellen lassen falls noch nicht geschehen", "Have degree of disability (GdB) certified at the Versorgungsamt if not yet done"),
+			tr(lang, "Bei Kündigung: Zustimmung des Inklusionsamtes nach § 168 SGB IX prüfen — ohne Zustimmung ist Kündigung unwirksam", "If dismissed: check Inklusionsamt approval under § 168 SGB IX — without approval dismissal is void"),
+			tr(lang, "Schwerbehindertenvertretung (SBV) im Betrieb kontaktieren", "Contact the Schwerbehindertenvertretung (SBV) in the company"),
+			tr(lang, "Gleichstellungsantrag bei der Agentur für Arbeit stellen (bei GdB 30–49)", "Apply for equivalent status at the Agentur für Arbeit (if GdB 30–49)"),
+		}
+	}
 
 	if containsAny(low, "entlassen", "kündigung", "gekündigt", "dismissed", "fired", "termination") {
 		actions = append(actions,
