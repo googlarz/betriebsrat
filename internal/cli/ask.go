@@ -106,6 +106,13 @@ Examples (BR member):
 				fmt.Fprintln(w)
 			}
 
+			// Show disclaimer before the answer for high-stakes situations
+			// (employee with a deadline or procedure check involved).
+			highStakes := result.UserRole == "employee" && (result.Deadline != "" || result.SozialplanHint != "")
+			if highStakes {
+				fmt.Fprintf(w, "⚠️  %s\n\n", result.Disclaimer)
+			}
+
 			fmt.Fprintf(w, "%s\n\n", result.Answer)
 
 			if len(result.Actions) > 0 {
@@ -125,7 +132,9 @@ Examples (BR member):
 			if result.TopicURL != "" {
 				fmt.Fprintf(w, "\n%s: %s\n", tr(lang, "Mehr Infos", "More info"), result.TopicURL)
 			}
-			fmt.Fprintf(w, "\n⚠️  %s\n", result.Disclaimer)
+			if !highStakes {
+				fmt.Fprintf(w, "\n⚠️  %s\n", result.Disclaimer)
+			}
 			return nil
 		},
 	}

@@ -130,7 +130,7 @@ Batch mode (--csv): CSV file with one employee per line:
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if factor <= 0 {
-				factor = 0.5
+				factor = 0.75
 			}
 
 			// Batch CSV mode
@@ -195,7 +195,7 @@ Batch mode (--csv): CSV file with one employee per line:
 	cmd.Flags().IntVar(&age, "age", 0, "Alter des Arbeitnehmers")
 	cmd.Flags().BoolVar(&disabled, "disabled", false, "Schwerbehindert (GdB ≥ 50) — Zuschlag +25%%")
 	cmd.Flags().IntVar(&children, "children", 0, "Unterhaltspflichtige Kinder — Zuschlag +10%% je Kind (max. 3)")
-	cmd.Flags().Float64Var(&factor, "factor", 0.5, "Sozialplanfaktor (Standard: 0.5; üblich: 0.5–1.5)")
+	cmd.Flags().Float64Var(&factor, "factor", 0.75, "Sozialplanfaktor (Standard: 0.75; Bandbreite: 0.5–1.5)")
 	cmd.Flags().Float64Var(&maxCap, "max-cap", 0, "Kappungsgrenze in Euro (0 = kein Cap)")
 	cmd.Flags().StringVar(&csvFile, "csv", "", "CSV-Datei mit Mitarbeiterdaten für Batch-Berechnung")
 
