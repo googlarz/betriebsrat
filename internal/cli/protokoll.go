@@ -46,9 +46,9 @@ BR decisions are only legally valid when:
 Missing or defective minutes can invalidate BR resolutions — including
 Widersprüche, Zustimmungsverweigerungen, and BV approvals.`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli protokoll --topic "Kündigung Max Mustermann § 102" --br-size 7 --date 2026-05-15
-  betriebsrat-pp-cli protokoll --topic "Einführung Homeoffice-BV" --br-size 11 --location "Konferenzraum 2" --agent
-  betriebsrat-pp-cli protokoll --topic "Widerspruch Versetzung" --br-size 5 --employer "Musterfirma GmbH" --json`, "\n"),
+  betriebsrat protokoll --topic "Kündigung Max Mustermann § 102" --br-size 7 --date 2026-05-15
+  betriebsrat protokoll --topic "Einführung Homeoffice-BV" --br-size 11 --location "Konferenzraum 2" --agent
+  betriebsrat protokoll --topic "Widerspruch Versetzung" --br-size 5 --employer "Musterfirma GmbH" --json`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

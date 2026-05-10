@@ -121,10 +121,10 @@ Batch mode (--csv): CSV file with one employee per line:
   Lines starting with # are treated as comments and ignored.
   --factor and --max-cap flags set defaults for rows that omit those columns.`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli sozialplan-calc --salary 4500 --years 8 --age 42 --factor 0.75
-  betriebsrat-pp-cli sozialplan-calc --salary 6000 --years 15 --age 58 --disabled --children 2 --factor 1.0
-  betriebsrat-pp-cli sozialplan-calc --salary 3800 --years 3 --age 35 --max-cap 50000 --agent
-  betriebsrat-pp-cli sozialplan-calc --csv employees.csv --factor 0.75 --max-cap 80000 --agent`, "\n"),
+  betriebsrat sozialplan-calc --salary 4500 --years 8 --age 42 --factor 0.75
+  betriebsrat sozialplan-calc --salary 6000 --years 15 --age 58 --disabled --children 2 --factor 1.0
+  betriebsrat sozialplan-calc --salary 3800 --years 3 --age 35 --max-cap 50000 --agent
+  betriebsrat sozialplan-calc --csv employees.csv --factor 0.75 --max-cap 80000 --agent`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

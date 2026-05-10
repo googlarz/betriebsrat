@@ -69,9 +69,9 @@ actual use is not required (established BAG case law).
 Typical triggers: AI scoring, employee dashboards, time tracking, performance tracking,
 algorithmic management, GenAI processing employee data, Teams/Slack analytics.`),
 		Example: strings.Trim(`
-  betriebsrat-pp-cli ki-check --system "KI-Tool das Salesforce-Aktivitäten auswertet und Mitarbeiter bewertet" --monitors-performance
-  betriebsrat-pp-cli ki-check --system "GitHub Copilot" --purpose "Code completion" --data "keystrokes,accepted suggestions" --agent
-  betriebsrat-pp-cli ki-check --system "Workday People Analytics" --monitors-performance --influences-hr --auto-decision --lang en`, "\n"),
+  betriebsrat ki-check --system "KI-Tool das Salesforce-Aktivitäten auswertet und Mitarbeiter bewertet" --monitors-performance
+  betriebsrat ki-check --system "GitHub Copilot" --purpose "Code completion" --data "keystrokes,accepted suggestions" --agent
+  betriebsrat ki-check --system "Workday People Analytics" --monitors-performance --influences-hr --auto-decision --lang en`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

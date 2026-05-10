@@ -47,9 +47,9 @@ Each template includes:
   - Placeholder sections ([...]) to fill with your specific terms
   - Common pitfalls and negotiation tips as inline comments`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli bv-template homeoffice --employer "Musterfirma GmbH"
-  betriebsrat-pp-cli bv-template software --agent
-  betriebsrat-pp-cli bv-template arbeitszeit --employer "Firma AG" --json`, "\n"),
+  betriebsrat bv-template homeoffice --employer "Musterfirma GmbH"
+  betriebsrat bv-template software --agent
+  betriebsrat bv-template arbeitszeit --employer "Firma AG" --json`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

@@ -25,10 +25,10 @@ agents that need full API coverage.
 Run 'api' with no arguments to list all interfaces.
 Run 'api <interface>' to see that interface's methods.`,
 		Example: `  # List all available interfaces
-  betriebsrat-pp-cli api
+  betriebsrat api
 
   # Show methods for a specific interface
-  betriebsrat-pp-cli api <interface-name>`,
+  betriebsrat api <interface-name>`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			root := cmd.Root()
 

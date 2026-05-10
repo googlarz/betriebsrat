@@ -114,9 +114,9 @@ Predefined topics (--topic):
   wirtschaft          Economic situation of the company (§ 106 BetrVG)
   custom              Free text via --custom`),
 		Example: strings.Trim(`
-  betriebsrat-pp-cli auskunft --topic sozialdaten --reason "Prüfung Sozialauswahl § 102" --employer "Firma GmbH"
-  betriebsrat-pp-cli auskunft --topic ki --reason "Einführung KI-Bewertungssystem" --deadline-days 10 --agent
-  betriebsrat-pp-cli auskunft --topic custom --custom "Überstundenaufstellungen der letzten 12 Monate" --lang en`, "\n"),
+  betriebsrat auskunft --topic sozialdaten --reason "Prüfung Sozialauswahl § 102" --employer "Firma GmbH"
+  betriebsrat auskunft --topic ki --reason "Einführung KI-Bewertungssystem" --deadline-days 10 --agent
+  betriebsrat auskunft --topic custom --custom "Überstundenaufstellungen der letzten 12 Monate" --lang en`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

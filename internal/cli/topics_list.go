@@ -16,7 +16,7 @@ func newTopicsListCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "list",
 		Short:       "List all topic areas (35+ Betriebsrat topics A-Z)",
-		Example:     "  betriebsrat-pp-cli topics list",
+		Example:     "  betriebsrat topics list",
 		Annotations: map[string]string{"pp:endpoint": "topics.list", "pp:method": "GET", "pp:path": "/br", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

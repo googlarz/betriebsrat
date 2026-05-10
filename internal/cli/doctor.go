@@ -13,9 +13,9 @@ import (
 	"strings"
 	"time"
 
-	"betriebsrat-pp-cli/internal/client"
-	"betriebsrat-pp-cli/internal/config"
-	"betriebsrat-pp-cli/internal/store"
+	"betriebsrat/internal/client"
+	"betriebsrat/internal/config"
+	"betriebsrat/internal/store"
 	"github.com/spf13/cobra"
 )
 
@@ -68,9 +68,9 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "doctor",
 		Short: "Check CLI health",
-		Example: `  betriebsrat-pp-cli doctor
-  betriebsrat-pp-cli doctor --json
-  betriebsrat-pp-cli doctor --fail-on warn`,
+		Example: `  betriebsrat doctor
+  betriebsrat doctor --json
+  betriebsrat doctor --fail-on warn`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			report := map[string]any{}
 
@@ -146,7 +146,7 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 						authParams := map[string]string{}
 						authHeaders := map[string]string{}
 						authHeaders["Authorization"] = authHeader
-						authHeaders["User-Agent"] = "betriebsrat-pp-cli"
+						authHeaders["User-Agent"] = "betriebsrat"
 						_, authErr := c.GetWithHeaders(verifyPath, authParams, authHeaders)
 						var authAPIErr *client.APIError
 						switch {
@@ -182,7 +182,7 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 			report["cache"] = collectCacheReport(cmd.Context(), "")
 
 			report["version"] = version
-			report["knowledge_base"] = "BetrVG embedded knowledge as of 2026-05. New BAG decisions and legislative changes after this date are not reflected. Run 'betriebsrat-pp-cli sync' to refresh betriebsrat.de content."
+			report["knowledge_base"] = "BetrVG embedded knowledge as of 2026-05. New BAG decisions and legislative changes after this date are not reflected. Run 'betriebsrat sync' to refresh betriebsrat.de content."
 
 			if flags.asJSON {
 				if err := printJSONFiltered(cmd.OutOrStdout(), report, flags); err != nil {
@@ -302,14 +302,14 @@ func doctorExitForFailOn(failOn string, report map[string]any) error {
 // because the alternative is no freshness story at all.
 func collectCacheReport(ctx context.Context, staleAfterSpec string) map[string]any {
 	report := map[string]any{}
-	dbPath := defaultDBPath("betriebsrat-pp-cli")
+	dbPath := defaultDBPath("betriebsrat")
 	report["db_path"] = dbPath
 
 	fi, err := os.Stat(dbPath)
 	if err != nil {
 		if os.IsNotExist(err) {
 			report["status"] = "unknown"
-			report["hint"] = "Database not created yet; run 'betriebsrat-pp-cli sync' to hydrate."
+			report["hint"] = "Database not created yet; run 'betriebsrat sync' to hydrate."
 			return report
 		}
 		report["status"] = "error"
@@ -342,7 +342,7 @@ func collectCacheReport(ctx context.Context, staleAfterSpec string) map[string]a
 		// sync_state may not exist on a fresh DB that has migrated but not
 		// yet had any sync runs — treat as unknown rather than error.
 		report["status"] = "unknown"
-		report["hint"] = "No sync state recorded; run 'betriebsrat-pp-cli sync' to populate."
+		report["hint"] = "No sync state recorded; run 'betriebsrat sync' to populate."
 		return report
 	}
 	defer rows.Close()
@@ -382,13 +382,13 @@ func collectCacheReport(ctx context.Context, staleAfterSpec string) map[string]a
 	switch {
 	case !haveAny && len(resources) == 0:
 		report["status"] = "unknown"
-		report["hint"] = "sync_state is empty; run 'betriebsrat-pp-cli sync' to hydrate."
+		report["hint"] = "sync_state is empty; run 'betriebsrat sync' to hydrate."
 	case fresh:
 		report["status"] = "fresh"
 	default:
 		report["status"] = "stale"
 		report["oldest_age"] = oldest.Round(time.Minute).String()
-		report["hint"] = "Some resources are older than stale_after; run 'betriebsrat-pp-cli sync' to refresh."
+		report["hint"] = "Some resources are older than stale_after; run 'betriebsrat sync' to refresh."
 	}
 	return report
 }

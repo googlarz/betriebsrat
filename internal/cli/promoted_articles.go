@@ -18,7 +18,7 @@ func newArticlesPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "articles",
 		Short:       "Search for articles within a topic area",
 		Long:        "Shortcut for 'articles search'. Search for articles within a topic area",
-		Example:     "  betriebsrat-pp-cli articles --topic betriebsrat-gruenden",
+		Example:     "  betriebsrat articles --topic betriebsrat-gruenden",
 		Annotations: map[string]string{"pp:endpoint": "articles.search", "pp:method": "GET", "pp:path": "/br/themen/{topic}/uebersicht", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("topic") && !flags.dryRun {

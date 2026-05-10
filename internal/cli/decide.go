@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"betriebsrat-pp-cli/internal/betrvg"
+	"betriebsrat/internal/betrvg"
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
@@ -41,9 +41,9 @@ func newDecideCmd(flags *rootFlags) *cobra.Command {
 
 Use for complex situations where you need a complete picture quickly.`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli decide "Arbeitgeber kündigt 15 Mitarbeiter"
-  betriebsrat-pp-cli decide "Einführung KI-Schreibassistent für alle Mitarbeiter" --json
-  betriebsrat-pp-cli decide "Betrieb soll nach München verlagert werden" --agent`, "\n"),
+  betriebsrat decide "Arbeitgeber kündigt 15 Mitarbeiter"
+  betriebsrat decide "Einführung KI-Schreibassistent für alle Mitarbeiter" --json
+  betriebsrat decide "Betrieb soll nach München verlagert werden" --agent`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},
@@ -235,7 +235,7 @@ func buildActionPlan(lang string, strongest betrvg.CoDeterminationType, situatio
 	if cl := betrvg.GetChecklist(situation); cl != nil {
 		plan = append(plan, decisionAction{
 			Priority: tr(lang, "hinweis", "note"),
-			Action:   fmt.Sprintf(tr(lang, "Vollständige Checkliste verfügbar: `betriebsrat-pp-cli checklist %q`", "Full checklist available: `betriebsrat-pp-cli checklist %q`"), cl.Situation),
+			Action:   fmt.Sprintf(tr(lang, "Vollständige Checkliste verfügbar: `betriebsrat checklist %q`", "Full checklist available: `betriebsrat checklist %q`"), cl.Situation),
 		})
 	}
 

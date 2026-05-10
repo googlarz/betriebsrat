@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"betriebsrat-pp-cli/internal/betrvg"
+	"betriebsrat/internal/betrvg"
 	"github.com/spf13/cobra"
 )
 
@@ -124,9 +124,9 @@ Required elements:
 
 Paste the full letter text as the argument. Enclose in quotes or pipe via stdin.`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli check-anhoerung "Wir hören den Betriebsrat zur beabsichtigten ordentlichen Kündigung von Herrn Max Mustermann, geb. 15.03.1980, verheiratet, 2 Kinder, seit 2015 beschäftigt, an. Grund: betriebsbedingt, Stellenabbau." --agent
-  betriebsrat-pp-cli check-anhoerung "$(cat anhoerung.txt)" --json
-  betriebsrat-pp-cli check-anhoerung "Sehr geehrte Damen, wir kündigen Frau Schmidt außerordentlich." --type außerordentlich`, "\n"),
+  betriebsrat check-anhoerung "Wir hören den Betriebsrat zur beabsichtigten ordentlichen Kündigung von Herrn Max Mustermann, geb. 15.03.1980, verheiratet, 2 Kinder, seit 2015 beschäftigt, an. Grund: betriebsbedingt, Stellenabbau." --agent
+  betriebsrat check-anhoerung "$(cat anhoerung.txt)" --json
+  betriebsrat check-anhoerung "Sehr geehrte Damen, wir kündigen Frau Schmidt außerordentlich." --type außerordentlich`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

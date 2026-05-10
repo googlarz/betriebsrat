@@ -75,10 +75,10 @@ Use cases:
   gesundheit    Occupational health / safety → usually NOT TV-blocked
   custom        Free input (--topic)`),
 		Example: strings.Trim(`
-  betriebsrat-pp-cli tarifvertrag-check --topic lohn --tv-type "Branchentarifvertrag" --tv-covers
-  betriebsrat-pp-cli tarifvertrag-check --topic homeoffice --no-tv-covers
-  betriebsrat-pp-cli tarifvertrag-check --topic software --agent
-  betriebsrat-pp-cli tarifvertrag-check --topic arbeitszeit --tv-covers --opening-clause --lang en`, "\n"),
+  betriebsrat tarifvertrag-check --topic lohn --tv-type "Branchentarifvertrag" --tv-covers
+  betriebsrat tarifvertrag-check --topic homeoffice --no-tv-covers
+  betriebsrat tarifvertrag-check --topic software --agent
+  betriebsrat tarifvertrag-check --topic arbeitszeit --tv-covers --opening-clause --lang en`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

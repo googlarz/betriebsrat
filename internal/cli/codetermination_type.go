@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"betriebsrat-pp-cli/internal/betrvg"
+	"betriebsrat/internal/betrvg"
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
@@ -21,9 +21,9 @@ func newCoDeterminationTypeCmd(flags *rootFlags) *cobra.Command {
   Unterrichtung              — Employer must inform BR
   Keine                      — No specific BR right found`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli codetermination-type Versetzung
-  betriebsrat-pp-cli codetermination-type "Überwachungssoftware" --json
-  betriebsrat-pp-cli codetermination-type Kündigung --agent`, "\n"),
+  betriebsrat codetermination-type Versetzung
+  betriebsrat codetermination-type "Überwachungssoftware" --json
+  betriebsrat codetermination-type Kündigung --agent`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	"betriebsrat-pp-cli/internal/cli"
+	"betriebsrat/internal/cli"
 )
 
 func main() {

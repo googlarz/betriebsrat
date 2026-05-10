@@ -17,7 +17,7 @@ func newGlossarySearchCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "search",
 		Short:       "Search for a specific legal term",
-		Example:     "  betriebsrat-pp-cli glossary search --term example-value",
+		Example:     "  betriebsrat glossary search --term example-value",
 		Annotations: map[string]string{"pp:endpoint": "glossary.search", "pp:method": "GET", "pp:path": "/br/service/lexikon", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("term") && !flags.dryRun {

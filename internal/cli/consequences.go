@@ -37,9 +37,9 @@ Situations:
   software          — Employer introduces monitoring software without BR agreement
   br-deadline       — What happens when BR does not respond within the statutory window`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli consequences kündigung --agent
-  betriebsrat-pp-cli consequences einstellung --agent
-  betriebsrat-pp-cli consequences betriebsänderung --agent`, "\n"),
+  betriebsrat consequences kündigung --agent
+  betriebsrat consequences einstellung --agent
+  betriebsrat consequences betriebsänderung --agent`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

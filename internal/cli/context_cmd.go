@@ -11,7 +11,7 @@ import (
 )
 
 // CompanyContext stores company-specific facts that calibrate all advice.
-// Persisted at ~/.betriebsrat-pp-cli/context.json.
+// Persisted at ~/.betriebsrat/context.json.
 type CompanyContext struct {
 	Employees   int      `json:"employees"`             // Anzahl Arbeitnehmer im Betrieb
 	Sector      string   `json:"sector,omitempty"`      // Branche (IT, Handel, Industrie, etc.)
@@ -34,7 +34,7 @@ func companyContextPath() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("resolving home dir: %w", err)
 	}
-	dir := filepath.Join(home, ".betriebsrat-pp-cli")
+	dir := filepath.Join(home, ".betriebsrat")
 	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return "", fmt.Errorf("creating state dir: %w", err)
 	}
@@ -97,7 +97,7 @@ func newContextCmd(flags *rootFlags) *cobra.Command {
 		Use:   "context",
 		Short: "Store and display company profile for context-aware advice",
 		Long: `Persists company-specific facts so all advice is calibrated to your situation.
-Stored at ~/.betriebsrat-pp-cli/context.json.
+Stored at ~/.betriebsrat/context.json.
 
 The profile affects which BetrVG thresholds apply:
   <5 AN   — No BR possible
@@ -127,9 +127,9 @@ func newContextSetCmd(flags *rootFlags) *cobra.Command {
 		Use:   "set",
 		Short: "Set company profile fields",
 		Example: strings.Trim(`
-  betriebsrat-pp-cli context set --employees 150 --sector IT --tariff --br-size 7
-  betriebsrat-pp-cli context set --employees 350 --tariff --tariff-name "TV-L" --bvs "Homeoffice,Arbeitszeit"
-  betriebsrat-pp-cli context set --employees 80`, "\n"),
+  betriebsrat context set --employees 150 --sector IT --tariff --br-size 7
+  betriebsrat context set --employees 350 --tariff --tariff-name "TV-L" --bvs "Homeoffice,Arbeitszeit"
+  betriebsrat context set --employees 80`, "\n"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx, err := loadCompanyContext()
 			if err != nil {
@@ -206,7 +206,7 @@ func newContextShowCmd(flags *rootFlags) *cobra.Command {
 			}
 			if ctx == nil {
 				fmt.Fprintln(cmd.OutOrStdout(), "Kein Kontext gespeichert. Starten Sie mit:")
-				fmt.Fprintln(cmd.OutOrStdout(), "  betriebsrat-pp-cli context set --employees <n> ...")
+				fmt.Fprintln(cmd.OutOrStdout(), "  betriebsrat context set --employees <n> ...")
 				return nil
 			}
 			if flags.asJSON || flags.agent {

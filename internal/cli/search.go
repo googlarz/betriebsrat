@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	"betriebsrat-pp-cli/internal/store"
+	"betriebsrat/internal/store"
 	"github.com/spf13/cobra"
 )
 
@@ -95,16 +95,16 @@ otherwise searches local data. Falls back to local on network failure.
 In live mode: uses the API search endpoint only.
 In local mode: searches locally synced data only.`,
 		Example: `  # Search (uses API endpoint if available, local FTS otherwise)
-  betriebsrat-pp-cli search "error timeout"
+  betriebsrat search "error timeout"
 
   # Force local search only
-  betriebsrat-pp-cli search "payment failed" --data-source local
+  betriebsrat search "payment failed" --data-source local
 
   # Search a specific resource type locally
-  betriebsrat-pp-cli search "critical" --type transactions --data-source local
+  betriebsrat search "critical" --type transactions --data-source local
 
   # JSON output for piping
-  betriebsrat-pp-cli search "critical" --json --limit 20`,
+  betriebsrat search "critical" --json --limit 20`,
 		Annotations: map[string]string{"mcp:hidden": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
@@ -136,12 +136,12 @@ In local mode: searches locally synced data only.`,
 
 			// Local FTS search
 			if dbPath == "" {
-				dbPath = defaultDBPath("betriebsrat-pp-cli")
+				dbPath = defaultDBPath("betriebsrat")
 			}
 
 			db, err := store.OpenWithContext(cmd.Context(), dbPath)
 			if err != nil {
-				return fmt.Errorf("opening local database: %w\nRun 'betriebsrat-pp-cli sync' first to populate the local database.", err)
+				return fmt.Errorf("opening local database: %w\nRun 'betriebsrat sync' first to populate the local database.", err)
 			}
 			defer db.Close()
 
@@ -171,7 +171,7 @@ In local mode: searches locally synced data only.`,
 
 	cmd.Flags().StringVar(&resourceType, "type", "", "Filter by resource type")
 	cmd.Flags().IntVar(&limit, "limit", 50, "Maximum results to return")
-	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/betriebsrat-pp-cli/data.db)")
+	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/betriebsrat/data.db)")
 
 	return cmd
 }

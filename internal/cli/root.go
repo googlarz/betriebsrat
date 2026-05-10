@@ -13,8 +13,8 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"betriebsrat-pp-cli/internal/client"
-	"betriebsrat-pp-cli/internal/config"
+	"betriebsrat/internal/client"
+	"betriebsrat/internal/config"
 	"github.com/spf13/cobra"
 )
 
@@ -82,7 +82,7 @@ func Execute() error {
 
 func newRootCmd(flags *rootFlags) *cobra.Command {
 	rootCmd := &cobra.Command{
-		Use:   "betriebsrat-pp-cli",
+		Use:   "betriebsrat",
 		Short: `German works council advisor: rights-check, decisions, deadlines, and BetrVG knowledge from betriebsrat.de`,
 		Long: `German works council advisor: rights-check, decisions, deadlines, and BetrVG knowledge from betriebsrat.de
 
@@ -113,12 +113,12 @@ Highlights (not in the official API docs):
 Language: use --lang en for English output on any command. Legal documents always remain in German.
 
 Agent mode: add --agent to any command for JSON output + non-interactive mode.
-Health check: run 'betriebsrat-pp-cli doctor' to verify auth and connectivity.
+Health check: run 'betriebsrat doctor' to verify auth and connectivity.
 See README.md or the bundled SKILL.md for recipes.`,
 		SilenceUsage: true,
 		Version:      version,
 	}
-	rootCmd.SetVersionTemplate("betriebsrat-pp-cli {{ .Version }}\n")
+	rootCmd.SetVersionTemplate("betriebsrat {{ .Version }}\n")
 
 	rootCmd.PersistentFlags().BoolVar(&flags.asJSON, "json", false, "Output as JSON")
 	rootCmd.PersistentFlags().BoolVar(&flags.compact, "compact", false, "Return only key fields (id, name, status, timestamps) for minimal token usage")
@@ -138,7 +138,7 @@ See README.md or the bundled SKILL.md for recipes.`,
 	rootCmd.PersistentFlags().BoolVar(&flags.agent, "agent", false, "Set all agent-friendly defaults (--json --compact --no-input --no-color --yes)")
 	rootCmd.PersistentFlags().StringVar(&flags.lang, "lang", "de", "Output language: de (German) or en (English). Legal documents always stay in German.")
 	rootCmd.PersistentFlags().StringVar(&flags.dataSource, "data-source", "auto", "Data source for read commands: auto (live with local fallback), live (API only), local (synced data only)")
-	rootCmd.PersistentFlags().StringVar(&flags.profileName, "profile", "", "Apply values from a saved profile (see 'betriebsrat-pp-cli profile list')")
+	rootCmd.PersistentFlags().StringVar(&flags.profileName, "profile", "", "Apply values from a saved profile (see 'betriebsrat profile list')")
 	rootCmd.PersistentFlags().StringVar(&flags.deliverSpec, "deliver", "", "Route output to a sink: stdout (default), file:<path>, webhook:<url>")
 	rootCmd.PersistentFlags().Float64Var(&flags.rateLimit, "rate-limit", 0, "Max requests per second (0 to disable)")
 
@@ -196,10 +196,10 @@ See README.md or the bundled SKILL.md for recipes.`,
 		// Warn when local sync DB is stale (>30 days), except for commands that don't use it.
 		skipStaleness := map[string]bool{"doctor": true, "sync": true, "version": true, "help": true, "completion": true, "serve": true}
 		if !skipStaleness[cmd.Name()] && flags.dataSource != "live" {
-			dbPath := defaultDBPath("betriebsrat-pp-cli")
+			dbPath := defaultDBPath("betriebsrat")
 			if fi, err := os.Stat(dbPath); err == nil {
 				if ageDays := int(time.Since(fi.ModTime()).Hours() / 24); ageDays > 30 {
-					fmt.Fprintf(os.Stderr, "warning: local knowledge base is %d days old — run 'betriebsrat-pp-cli sync' to refresh betriebsrat.de content\n", ageDays)
+					fmt.Fprintf(os.Stderr, "warning: local knowledge base is %d days old — run 'betriebsrat sync' to refresh betriebsrat.de content\n", ageDays)
 				}
 			}
 		}
@@ -303,7 +303,7 @@ func newVersionCliCmd() *cobra.Command {
 		Use:   "version",
 		Short: "Print version",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("betriebsrat-pp-cli %s\n", version)
+			fmt.Printf("betriebsrat %s\n", version)
 		},
 	}
 }

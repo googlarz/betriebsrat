@@ -9,7 +9,7 @@ metadata:
   openclaw:
     requires:
       bins:
-        - betriebsrat-pp-cli
+        - betriebsrat
 ---
 
 # Betriebsrat — Printing Press CLI
@@ -24,16 +24,16 @@ One tool answers both sides. Every command works without network access.
 
 ## Prerequisites: Install the CLI
 
-This skill drives the `betriebsrat-pp-cli` binary. **You must verify the CLI is installed before invoking any command from this skill.** If it is missing, install it first:
+This skill drives the `betriebsrat` binary. **You must verify the CLI is installed before invoking any command from this skill.** If it is missing, install it first:
 
 1. Install via the Printing Press installer:
    ```bash
    npx -y @mvanhorn/printing-press install betriebsrat --cli-only
    ```
-2. Verify: `betriebsrat-pp-cli --version`
+2. Verify: `betriebsrat --version`
 3. Ensure `$GOPATH/bin` (or `$HOME/go/bin`) is on `$PATH`.
 
-Run `betriebsrat-pp-cli doctor` to verify setup.
+Run `betriebsrat doctor` to verify setup.
 
 ---
 
@@ -57,9 +57,9 @@ Run all three classification commands in parallel before saying anything.
 Detect the user's language from their message and add `--lang en` if they're writing in English:
 
 ```bash
-betriebsrat-pp-cli rights-check "<situation>" --agent [--lang en]
-betriebsrat-pp-cli decide "<situation>" --agent [--lang en]
-betriebsrat-pp-cli consequences "<situation_type>" --agent [--lang en]  # if situation type is clear
+betriebsrat rights-check "<situation>" --agent [--lang en]
+betriebsrat decide "<situation>" --agent [--lang en]
+betriebsrat consequences "<situation_type>" --agent [--lang en]  # if situation type is clear
 ```
 
 Then present findings: applicable §§, co-determination type, key deadlines, and what happens if the BR misses the window.
@@ -82,7 +82,7 @@ Present chained results together with the primary result, clearly labelled.
 ### B — Load company profile (if set)
 
 ```bash
-betriebsrat-pp-cli context show --agent
+betriebsrat context show --agent
 ```
 
 If a profile exists, use it to filter advice: skip §§ that don't apply (e.g., § 111 only applies at ≥20 AN; § 106 only at ≥100 AN). If the person is a BR member, flag § 103 automatically.
@@ -99,7 +99,7 @@ After auto-classification, ask these questions **once per session** to calibrate
 
 Save the answers to the profile for this session:
 ```bash
-betriebsrat-pp-cli context set --employees <n> --tariff [true/false] --br-size <n> --bvs "<topic>" 
+betriebsrat context set --employees <n> --tariff [true/false] --br-size <n> --bvs "<topic>" 
 ```
 
 **Do not ask for salary, names, or personal data unless the user explicitly volunteers it.**
@@ -115,9 +115,9 @@ betriebsrat-pp-cli context set --employees <n> --tariff [true/false] --br-size <
 Run the classification commands. They use the embedded BetrVG knowledge base and work offline:
 
 ```bash
-betriebsrat-pp-cli rights-check "<situation>" --agent
-betriebsrat-pp-cli codetermination-type "<topic>" --agent
-betriebsrat-pp-cli deadline "<type>" --from YYYY-MM-DD --agent
+betriebsrat rights-check "<situation>" --agent
+betriebsrat codetermination-type "<topic>" --agent
+betriebsrat deadline "<type>" --from YYYY-MM-DD --agent
 ```
 
 These answer: Does BR have a say? What kind? What's the deadline?
@@ -130,16 +130,16 @@ Chain additional commands to get the full picture:
 
 ```bash
 # Get the applicable law explained in plain German
-betriebsrat-pp-cli law <paragraph_number> --agent
+betriebsrat law <paragraph_number> --agent
 
 # Get step-by-step action checklist
-betriebsrat-pp-cli checklist "<situation>" --agent
+betriebsrat checklist "<situation>" --agent
 
 # Get structured decision support with recommended action
-betriebsrat-pp-cli decide "<situation>" --agent
+betriebsrat decide "<situation>" --agent
 
 # Get meeting preparation (agenda, quorum, questions for employer)
-betriebsrat-pp-cli prepare-meeting "<topic>" --agent
+betriebsrat prepare-meeting "<topic>" --agent
 ```
 
 ### Step 3 — Compose (advisory response)
@@ -218,25 +218,25 @@ The employer is dismissing an employee. BR must be heard before every dismissal.
 
 ```bash
 # 1. Calculate your deadline (runs first — deadlines are the #1 risk)
-betriebsrat-pp-cli deadline "ordentliche Kündigung" --from $(date +%Y-%m-%d) --agent
+betriebsrat deadline "ordentliche Kündigung" --from $(date +%Y-%m-%d) --agent
 # For extraordinary dismissal:
-betriebsrat-pp-cli deadline "außerordentliche Kündigung" --from $(date +%Y-%m-%d) --agent
+betriebsrat deadline "außerordentliche Kündigung" --from $(date +%Y-%m-%d) --agent
 
 # 2. Get the full action checklist
-betriebsrat-pp-cli checklist "Kündigung" --agent
+betriebsrat checklist "Kündigung" --agent
 
 # 3. Get the legal basis explained
-betriebsrat-pp-cli law 102 --agent
+betriebsrat law 102 --agent
 
 # 4. Check co-determination type
-betriebsrat-pp-cli codetermination-type "Kündigung Anhörung" --agent
+betriebsrat codetermination-type "Kündigung Anhörung" --agent
 
 # 5. Draft the formal response (Stellungnahme or Widerspruch)
-betriebsrat-pp-cli letter kündigung --type widerspruch --employee "Name" --ground "fehlerhafte Sozialauswahl" --agent
-betriebsrat-pp-cli letter kündigung --type zustimmung --employee "Name" --agent
+betriebsrat letter kündigung --type widerspruch --employee "Name" --ground "fehlerhafte Sozialauswahl" --agent
+betriebsrat letter kündigung --type zustimmung --employee "Name" --agent
 
 # 6. Understand consequences of missed deadline
-betriebsrat-pp-cli consequences kündigung --agent
+betriebsrat consequences kündigung --agent
 ```
 
 **Key facts for Kündigung:**
@@ -255,25 +255,25 @@ Employer is restructuring: closing sites, significant layoffs, outsourcing, merg
 
 ```bash
 # 1. Verify co-determination rights and scope
-betriebsrat-pp-cli rights-check "Betriebsänderung Schließung Standort" --agent
-betriebsrat-pp-cli codetermination-type "Betriebsänderung" --agent
+betriebsrat rights-check "Betriebsänderung Schließung Standort" --agent
+betriebsrat codetermination-type "Betriebsänderung" --agent
 
 # 2. Get full step-by-step checklist
-betriebsrat-pp-cli checklist "Betriebsänderung" --agent
+betriebsrat checklist "Betriebsänderung" --agent
 
 # 3. Understand the legal instruments
-betriebsrat-pp-cli law 111 --agent  # What counts as Betriebsänderung
-betriebsrat-pp-cli law 112 --agent  # Interessenausgleich + Sozialplan
+betriebsrat law 111 --agent  # What counts as Betriebsänderung
+betriebsrat law 112 --agent  # Interessenausgleich + Sozialplan
 
 # 4. Prepare the first meeting
-betriebsrat-pp-cli prepare-meeting "Betriebsänderung § 111" --agent
+betriebsrat prepare-meeting "Betriebsänderung § 111" --agent
 
 # 5. Get structured decision support
-betriebsrat-pp-cli decide "Arbeitgeber plant Schließung eines Standorts" --agent
+betriebsrat decide "Arbeitgeber plant Schließung eines Standorts" --agent
 
 # 6. Send formal letters
-betriebsrat-pp-cli letter betriebsänderung --type unterrichtung --measure "Schließung Filiale Hamburg" --affected 45 --employer "Firma GmbH" --agent
-betriebsrat-pp-cli letter betriebsänderung --type interessenausgleich --measure "Verlagerung Produktion nach Polen" --affected 120 --agent
+betriebsrat letter betriebsänderung --type unterrichtung --measure "Schließung Filiale Hamburg" --affected 45 --employer "Firma GmbH" --agent
+betriebsrat letter betriebsänderung --type interessenausgleich --measure "Verlagerung Produktion nach Polen" --affected 120 --agent
 ```
 
 **Key facts for Betriebsänderung:**
@@ -292,19 +292,19 @@ Employer wants to introduce new software, monitoring tools, AI systems, or perfo
 
 ```bash
 # 1. Check co-determination right (usually erzwingbar under § 87 Nr. 6)
-betriebsrat-pp-cli rights-check "Einführung Software Leistungsüberwachung KI" --agent
+betriebsrat rights-check "Einführung Software Leistungsüberwachung KI" --agent
 
 # 2. Classify the right type precisely
-betriebsrat-pp-cli codetermination-type "Überwachungssoftware" --agent
+betriebsrat codetermination-type "Überwachungssoftware" --agent
 
 # 3. Get the legal basis
-betriebsrat-pp-cli law 87 --agent  # Social co-determination, § 87 Abs. 1 Nr. 6
+betriebsrat law 87 --agent  # Social co-determination, § 87 Abs. 1 Nr. 6
 
 # 4. Get decision framework
-betriebsrat-pp-cli decide "Arbeitgeber will KI-System einführen das Mitarbeiter bewertet" --agent
+betriebsrat decide "Arbeitgeber will KI-System einführen das Mitarbeiter bewertet" --agent
 
 # 5. Prepare for negotiation
-betriebsrat-pp-cli prepare-meeting "Einführung KI-System § 87" --agent
+betriebsrat prepare-meeting "Einführung KI-System § 87" --agent
 ```
 
 **Key facts for Software-Einführung:**
@@ -322,17 +322,17 @@ Employer wants to hire someone or transfer an existing employee to a different r
 
 ```bash
 # 1. Check co-determination right
-betriebsrat-pp-cli rights-check "Einstellung Neueinstellung Versetzung" --agent
+betriebsrat rights-check "Einstellung Neueinstellung Versetzung" --agent
 
 # 2. Get the legal framework
-betriebsrat-pp-cli law 99 --agent   # Consent requirement for hiring/transfer
-betriebsrat-pp-cli law 100 --agent  # Provisional measures without consent
+betriebsrat law 99 --agent   # Consent requirement for hiring/transfer
+betriebsrat law 100 --agent  # Provisional measures without consent
 
 # 3. Understand refusal grounds
-betriebsrat-pp-cli decide "Arbeitgeber will neuen Mitarbeiter einstellen ohne BR zu fragen" --agent
+betriebsrat decide "Arbeitgeber will neuen Mitarbeiter einstellen ohne BR zu fragen" --agent
 
 # 4. Get checklist for the process
-betriebsrat-pp-cli checklist "Einstellung" --agent
+betriebsrat checklist "Einstellung" --agent
 ```
 
 **Key facts for Einstellung/Versetzung:**
@@ -350,28 +350,28 @@ Employer plans large-scale layoffs. § 17 KSchG adds a notification procedure on
 
 ```bash
 # 1. Check if § 17 KSchG threshold is met
-betriebsrat-pp-cli massenentlassung --employees 200 --planned 25 --agent
+betriebsrat massenentlassung --employees 200 --planned 25 --agent
 
 # 2. If triggered: check BR rights for the Betriebsänderung (runs in parallel)
-betriebsrat-pp-cli rights-check "Massenentlassung Stellenabbau" --agent
-betriebsrat-pp-cli law 17 --agent   # § 17 KSchG notification procedure
-betriebsrat-pp-cli law 112 --agent  # Sozialplan (erzwingbar)
+betriebsrat rights-check "Massenentlassung Stellenabbau" --agent
+betriebsrat law 17 --agent   # § 17 KSchG notification procedure
+betriebsrat law 112 --agent  # Sozialplan (erzwingbar)
 
 # 3. Get Betriebsänderung checklist and decision support
-betriebsrat-pp-cli checklist "Betriebsänderung Massenentlassung" --agent
-betriebsrat-pp-cli decide "Arbeitgeber kündigt 25 von 200 Mitarbeitern" --agent
+betriebsrat checklist "Betriebsänderung Massenentlassung" --agent
+betriebsrat decide "Arbeitgeber kündigt 25 von 200 Mitarbeitern" --agent
 
 # 4. Calculate Sozialplan for all affected employees (batch mode)
-betriebsrat-pp-cli sozialplan-calc --csv affected_employees.csv --factor 0.75 --max-cap 80000 --agent
+betriebsrat sozialplan-calc --csv affected_employees.csv --factor 0.75 --max-cap 80000 --agent
 
 # 5. Advise on Widerspruch grounds for each individual dismissal
-betriebsrat-pp-cli widerspruch-check --type betriebsbedingt --seniority-ignored --other-position --agent
+betriebsrat widerspruch-check --type betriebsbedingt --seniority-ignored --other-position --agent
 
 # 6. Generate BR resolution minutes for the Widerspruch vote
-betriebsrat-pp-cli protokoll --topic "Massenentlassung: § 102-Anhörung und Widerspruch" --br-size 7 --agent
+betriebsrat protokoll --topic "Massenentlassung: § 102-Anhörung und Widerspruch" --br-size 7 --agent
 
 # 7. Draft the Betriebsrat Stellungnahme letter
-betriebsrat-pp-cli letter betriebsänderung --type unterrichtung --measure "Abbau von 25 Stellen" --affected 25 --agent
+betriebsrat letter betriebsänderung --type unterrichtung --measure "Abbau von 25 Stellen" --affected 25 --agent
 ```
 
 **Key facts for Massenentlassung:**
@@ -389,16 +389,16 @@ Employer wants to introduce, change, or end homeoffice/remote work arrangements.
 
 ```bash
 # 1. Check rights
-betriebsrat-pp-cli rights-check "Homeoffice mobile Arbeit Telearbeit Einführung Abschaffung" --agent
+betriebsrat rights-check "Homeoffice mobile Arbeit Telearbeit Einführung Abschaffung" --agent
 
 # 2. Get the legal basis
-betriebsrat-pp-cli law 87 --agent   # Working hours (Nr. 2) + mobile work (Nr. 14)
+betriebsrat law 87 --agent   # Working hours (Nr. 2) + mobile work (Nr. 14)
 
 # 3. Get structured decision support
-betriebsrat-pp-cli decide "Arbeitgeber will Homeoffice abschaffen" --agent
+betriebsrat decide "Arbeitgeber will Homeoffice abschaffen" --agent
 
 # 4. Prepare the meeting
-betriebsrat-pp-cli prepare-meeting "Homeoffice-Regelung Betriebsvereinbarung" --agent
+betriebsrat prepare-meeting "Homeoffice-Regelung Betriebsvereinbarung" --agent
 ```
 
 **Key facts for Homeoffice:**
@@ -415,26 +415,26 @@ An employee is affected by a dismissal, transfer, or restructuring and wants to 
 
 ```bash
 # Dismissal: check if BR was properly consulted
-betriebsrat-pp-cli check-anhoerung "<text of the Anhörungsschreiben>" --type ordentlich --agent
+betriebsrat check-anhoerung "<text of the Anhörungsschreiben>" --type ordentlich --agent
 # → Shows: which required fields are present/missing, whether 7-day clock ran correctly
 
 # If the Anhörung was incomplete: find out what that means for the dismissal
-betriebsrat-pp-cli consequences kündigung --agent --lang en
+betriebsrat consequences kündigung --agent --lang en
 # → Shows: dismissal may be void; employee can object in labour court
 
 # Restructuring/layoff: check if Sozialplan applies
-betriebsrat-pp-cli law 112 --agent --lang en
+betriebsrat law 112 --agent --lang en
 # → Shows: Sozialplan is erzwingbar; employees have an individual entitlement
 
 # Calculate Sozialplan entitlement
-betriebsrat-pp-cli sozialplan-calc --salary 4500 --years 8 --age 42 --factor 0.75 --lang en --agent
+betriebsrat sozialplan-calc --salary 4500 --years 8 --age 42 --factor 0.75 --lang en --agent
 
 # If employer skipped Interessenausgleich: calculate Nachteilsausgleich claim
-betriebsrat-pp-cli nachteilsausgleich --salary 4500 --years 8 --measure "Standortschließung" --no-ia-attempted --lang en --agent
+betriebsrat nachteilsausgleich --salary 4500 --years 8 --measure "Standortschließung" --no-ia-attempted --lang en --agent
 # → This is ADDITIVE to any Sozialplan payment (with offset — sozialplan-calc shows the offset)
 
 # Transfer without BR consent: check if the measure is void
-betriebsrat-pp-cli consequences versetzung --agent --lang en
+betriebsrat consequences versetzung --agent --lang en
 # → Shows: employer must reverse the transfer if labour court finds no consent was obtained
 ```
 
@@ -452,46 +452,46 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
 - **`rights-check`** — Answers 'Does the Betriebsrat have a say in this?' — maps situation to BetrVG paragraphs and co-determination type
 
   ```bash
-  betriebsrat-pp-cli rights-check "employer wants to introduce home office policy" --agent
+  betriebsrat rights-check "employer wants to introduce home office policy" --agent
   ```
 
 - **`decide`** — Step-by-step decision support: classify situation, find applicable §§, determine BR rights, recommend action
 
   ```bash
-  betriebsrat-pp-cli decide "Arbeitgeber kündigt 15 Mitarbeiter" --agent
+  betriebsrat decide "Arbeitgeber kündigt 15 Mitarbeiter" --agent
   ```
 
 - **`checklist`** — Generates step-by-step action checklist for BR in a given situation
 
   ```bash
-  betriebsrat-pp-cli checklist "Betriebsänderung" --agent
+  betriebsrat checklist "Betriebsänderung" --agent
   ```
 
 - **`codetermination-type`** — Classifies BR rights as: Mitbestimmung (erzwingbar) / Mitwirkung / Unterrichtung / keine
 
   ```bash
-  betriebsrat-pp-cli codetermination-type "Versetzung" --agent
+  betriebsrat codetermination-type "Versetzung" --agent
   ```
 
 ### Legal deadlines
 - **`deadline`** — Calculates legal deadlines for BR response
 
   ```bash
-  betriebsrat-pp-cli deadline "ordentliche Kündigung" --from 2026-05-10 --agent
+  betriebsrat deadline "ordentliche Kündigung" --from 2026-05-10 --agent
   ```
 
 ### Meeting tools
 - **`prepare-meeting`** — Generates agenda, quorum rules, questions for employer for a BR meeting on a specific topic
 
   ```bash
-  betriebsrat-pp-cli prepare-meeting "Einführung KI-System" --agent
+  betriebsrat prepare-meeting "Einführung KI-System" --agent
   ```
 
 ### Legal reference
 - **`law`** — Plain-language explanation of any BetrVG paragraph
 
   ```bash
-  betriebsrat-pp-cli law 87 --agent
+  betriebsrat law 87 --agent
   ```
 
 ### Document drafting
@@ -500,11 +500,11 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
   _The most practical command for day-to-day BR work. Generates a ready-to-edit German letter with correct legal references and structure._
 
   ```bash
-  betriebsrat-pp-cli letter kündigung --type widerspruch --employee "Max Mustermann" --ground "fehlerhafte Sozialauswahl" --agent
-  betriebsrat-pp-cli letter einstellung --type verweigerung --employee "Anna Schmidt" --ground "Verstoß gegen § 93 BetrVG" --agent
-  betriebsrat-pp-cli letter versetzung --type zustimmung --employee "Peter Müller" --agent
-  betriebsrat-pp-cli letter betriebsänderung --type unterrichtung --measure "Schließung Standort X" --affected 60 --agent
-  betriebsrat-pp-cli letter betriebsänderung --type interessenausgleich --measure "Verlagerung Produktion" --affected 120 --agent
+  betriebsrat letter kündigung --type widerspruch --employee "Max Mustermann" --ground "fehlerhafte Sozialauswahl" --agent
+  betriebsrat letter einstellung --type verweigerung --employee "Anna Schmidt" --ground "Verstoß gegen § 93 BetrVG" --agent
+  betriebsrat letter versetzung --type zustimmung --employee "Peter Müller" --agent
+  betriebsrat letter betriebsänderung --type unterrichtung --measure "Schließung Standort X" --affected 60 --agent
+  betriebsrat letter betriebsänderung --type interessenausgleich --measure "Verlagerung Produktion" --affected 120 --agent
   ```
 
   Types for `kündigung`: `zustimmung` | `bedenken` | `widerspruch`
@@ -518,10 +518,10 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
   _Critical for understanding leverage and urgency. Know the exact legal consequences before deciding how to respond._
 
   ```bash
-  betriebsrat-pp-cli consequences kündigung --agent
-  betriebsrat-pp-cli consequences einstellung --agent
-  betriebsrat-pp-cli consequences betriebsänderung --agent
-  betriebsrat-pp-cli consequences software --agent
+  betriebsrat consequences kündigung --agent
+  betriebsrat consequences einstellung --agent
+  betriebsrat consequences betriebsänderung --agent
+  betriebsrat consequences software --agent
   ```
 
   Situations: `kündigung` | `einstellung` | `versetzung` | `betriebsänderung` | `software` | `br-deadline`
@@ -533,10 +533,10 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
 
   ```bash
   # Single employee
-  betriebsrat-pp-cli sozialplan-calc --salary 4500 --years 8 --age 42 --factor 0.75 --agent
-  betriebsrat-pp-cli sozialplan-calc --salary 6000 --years 15 --age 58 --disabled --children 2 --factor 1.0 --agent
+  betriebsrat sozialplan-calc --salary 4500 --years 8 --age 42 --factor 0.75 --agent
+  betriebsrat sozialplan-calc --salary 6000 --years 15 --age 58 --disabled --children 2 --factor 1.0 --agent
   # Batch mode — CSV: name,salary,years,age,disabled,children[,factor[,max_cap]]
-  betriebsrat-pp-cli sozialplan-calc --csv employees.csv --factor 0.75 --max-cap 80000 --agent
+  betriebsrat sozialplan-calc --csv employees.csv --factor 0.75 --max-cap 80000 --agent
   ```
 
   Formula: `Betriebszugehörigkeit × Monatsgehalt × Faktor`  
@@ -549,8 +549,8 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
   _Always run this when large-scale dismissals are planned. Missing the Massenentlassungsanzeige makes all terminations void._
 
   ```bash
-  betriebsrat-pp-cli massenentlassung --employees 150 --planned 25 --agent
-  betriebsrat-pp-cli massenentlassung --employees 500 --planned 35 --agent
+  betriebsrat massenentlassung --employees 150 --planned 25 --agent
+  betriebsrat massenentlassung --employees 500 --planned 35 --agent
   ```
 
   Thresholds: 21–59 AN → ≥6 | 60–499 AN → ≥10% or ≥26 | ≥500 AN → ≥30  
@@ -562,9 +562,9 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
   _A Widerspruch (§ 102 Abs. 3) — unlike Bedenken (§ 102 Abs. 2) — gives the employee the right to continued employment during appeal (§ 102 Abs. 5). Use this command to pick the right grounds._
 
   ```bash
-  betriebsrat-pp-cli widerspruch-check --type betriebsbedingt --wrong-social-selection --other-position --employee "Max Mustermann" --agent
-  betriebsrat-pp-cli widerspruch-check --type verhaltensbedingt --no-warning --agent
-  betriebsrat-pp-cli widerspruch-check --type betriebsbedingt --seniority-ignored --retraining --agent
+  betriebsrat widerspruch-check --type betriebsbedingt --wrong-social-selection --other-position --employee "Max Mustermann" --agent
+  betriebsrat widerspruch-check --type verhaltensbedingt --no-warning --agent
+  betriebsrat widerspruch-check --type betriebsbedingt --seniority-ignored --retraining --agent
   ```
 
   Grounds (§ 102 Abs. 3 Nr. 1–5): BV violation · wrong social selection · other position exists · retraining possible · changed terms possible  
@@ -576,9 +576,9 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
   _The BR's most-used leverage tool. Use it to demand social data for Sozialauswahl, org charts, salary structures, AI system documentation, or any other information needed for the BR's statutory tasks. The letter includes the enforcement threat (labour court application)._
 
   ```bash
-  betriebsrat-pp-cli auskunft --topic sozialdaten --reason "Prüfung Sozialauswahl § 102" --employer "Firma GmbH"
-  betriebsrat-pp-cli auskunft --topic ki --reason "Einführung KI-Bewertungssystem" --deadline-days 10 --agent
-  betriebsrat-pp-cli auskunft --topic custom --custom "Überstundenaufstellungen letzter 12 Monate" --lang en
+  betriebsrat auskunft --topic sozialdaten --reason "Prüfung Sozialauswahl § 102" --employer "Firma GmbH"
+  betriebsrat auskunft --topic ki --reason "Einführung KI-Bewertungssystem" --deadline-days 10 --agent
+  betriebsrat auskunft --topic custom --custom "Überstundenaufstellungen letzter 12 Monate" --lang en
   ```
 
   Topics: `sozialdaten` · `stellenplan` · `gehaelter` · `planung` · `auswahlrichtlinien` · `ki` · `wirtschaft` · `custom`  
@@ -590,9 +590,9 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
   _The most important tool for the current wave of AI deployments. § 87 Nr. 6 is triggered by the capability to monitor employees, not actual use. Use this to determine whether to block deployment and what the BV must cover._
 
   ```bash
-  betriebsrat-pp-cli ki-check --system "Workday People Analytics" --monitors-performance --influences-hr --auto-decision --lang en
-  betriebsrat-pp-cli ki-check --system "GitHub Copilot" --data "keystrokes,accepted suggestions" --agent
-  betriebsrat-pp-cli ki-check --system "Slack Workforce Analytics" --monitors-comms --monitors-performance --agent
+  betriebsrat ki-check --system "Workday People Analytics" --monitors-performance --influences-hr --auto-decision --lang en
+  betriebsrat ki-check --system "GitHub Copilot" --data "keystrokes,accepted suggestions" --agent
+  betriebsrat ki-check --system "Slack Workforce Analytics" --monitors-comms --monitors-performance --agent
   ```
 
   Flags: `--monitors-performance` · `--monitors-location` · `--monitors-comms` · `--influences-hr` · `--biometric` · `--auto-decision`  
@@ -604,8 +604,8 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
   _When the employer implements a Betriebsänderung without attempting an Interessenausgleich (or deviates from one already agreed), every affected employee has a personal claim. This is separate from — and additive to — the Sozialplan. Use it to quantify leverage during negotiations._
 
   ```bash
-  betriebsrat-pp-cli nachteilsausgleich --salary 5000 --years 12 --measure "Standortschließung" --no-ia-attempted --factor 0.75 --lang en
-  betriebsrat-pp-cli nachteilsausgleich --salary 6000 --years 15 --measure "Verlagerung" --ia-deviated --agent
+  betriebsrat nachteilsausgleich --salary 5000 --years 12 --measure "Standortschließung" --no-ia-attempted --factor 0.75 --lang en
+  betriebsrat nachteilsausgleich --salary 6000 --years 15 --measure "Verlagerung" --ia-deviated --agent
   ```
 
   Key rule: any existing Sozialplan payment is offset against the Nachteilsausgleich claim (§ 113 Abs. 3 Hs. 2)  
@@ -617,8 +617,8 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
   _BR resolutions are invalid without proper minutes signed by the chair and secretary (§ 34 BetrVG). This covers all required fields._
 
   ```bash
-  betriebsrat-pp-cli protokoll --topic "Kündigung Max Mustermann § 102" --br-size 7 --date 2026-05-15 --agent
-  betriebsrat-pp-cli protokoll --topic "Homeoffice-BV Abstimmung" --br-size 11 --employer "Musterfirma GmbH" --agent
+  betriebsrat protokoll --topic "Kündigung Max Mustermann § 102" --br-size 7 --date 2026-05-15 --agent
+  betriebsrat protokoll --topic "Homeoffice-BV Abstimmung" --br-size 11 --employer "Musterfirma GmbH" --agent
   ```
 
   Output: complete template with attendance sheet, quorum check, TOP structure (with voting rows), and signature block
@@ -627,9 +627,9 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
 - **`context`** — Stores and displays company profile for context-aware advice
 
   ```bash
-  betriebsrat-pp-cli context set --employees 150 --sector IT --tariff --tariff-name "TV-L" --br-size 7 --bvs "Homeoffice,Arbeitszeit"
-  betriebsrat-pp-cli context show --agent
-  betriebsrat-pp-cli context reset
+  betriebsrat context set --employees 150 --sector IT --tariff --tariff-name "TV-L" --br-size 7 --bvs "Homeoffice,Arbeitszeit"
+  betriebsrat context show --agent
+  betriebsrat context reset
   ```
 
   Thresholds applied automatically:
@@ -642,105 +642,105 @@ betriebsrat-pp-cli consequences versetzung --agent --lang en
 ## Command Reference
 
 **ask** — Natural-language entry point — no command knowledge required
-- `betriebsrat-pp-cli ask "<question in German or English>"`
+- `betriebsrat ask "<question in German or English>"`
 - Detects role (employee/BR), language, situation; routes to right analysis; returns audience-appropriate answer
 - Extracts salary/years from question for automatic Sozialplan estimate
 - `--json` returns structured result with role, classification, paragraphs, actions, deadline, disclaimer
 
 **serve** — Local web chat UI for employees and BR members without terminal access
-- `betriebsrat-pp-cli serve [--port 8080]`
+- `betriebsrat serve [--port 8080]`
 - Opens a browser-usable chat interface at `http://localhost:7890`
 - POST `/ask` endpoint for integration; GET `/` serves the chat UI
 - No external dependencies; works fully offline for embedded-knowledge questions
 
 **articles** — Individual articles and guides from betriebsrat.de
-- `betriebsrat-pp-cli articles` — Search for articles within a topic area
+- `betriebsrat articles` — Search for articles within a topic area
 
 **cases** — Recent Betriebsrat case law (Rechtsprechung)
-- `betriebsrat-pp-cli cases` — Fetch recent court decisions relevant to works councils
+- `betriebsrat cases` — Fetch recent court decisions relevant to works councils
 
 **glossary** — Legal terms and definitions (Lexikon) for works council members
-- `betriebsrat-pp-cli glossary list` — Browse legal terms glossary
-- `betriebsrat-pp-cli glossary search` — Search for a specific legal term
+- `betriebsrat glossary list` — Browse legal terms glossary
+- `betriebsrat glossary search` — Search for a specific legal term
 
 **topics** — Betriebsrat topic areas with articles, guides, and practical tips
-- `betriebsrat-pp-cli topics get` — Fetch full topic overview page with articles and guides
-- `betriebsrat-pp-cli topics list` — List all topic areas (35+ Betriebsrat topics A-Z)
+- `betriebsrat topics get` — Fetch full topic overview page with articles and guides
+- `betriebsrat topics list` — List all topic areas (35+ Betriebsrat topics A-Z)
 
 **context** — Store and display company profile for calibrated, threshold-aware advice
-- `betriebsrat-pp-cli context set --employees <n> [--sector <s>] [--tariff] [--br-size <n>] [--bvs "<topics>"]`
-- `betriebsrat-pp-cli context show` — Display profile and applicable BetrVG thresholds
-- `betriebsrat-pp-cli context reset` — Delete stored profile
+- `betriebsrat context set --employees <n> [--sector <s>] [--tariff] [--br-size <n>] [--bvs "<topics>"]`
+- `betriebsrat context show` — Display profile and applicable BetrVG thresholds
+- `betriebsrat context reset` — Delete stored profile
 
 **sozialplan-calc** — Calculate Sozialplan entitlement (Munich formula), single or batch
-- `betriebsrat-pp-cli sozialplan-calc --salary <eur> --years <n> [--age <n>] [--factor <f>] [--disabled] [--children <n>] [--max-cap <eur>]`
-- `betriebsrat-pp-cli sozialplan-calc --csv <file> [--factor <f>] [--max-cap <eur>]` — CSV: `name,salary,years,age,disabled,children[,factor[,max_cap]]`
+- `betriebsrat sozialplan-calc --salary <eur> --years <n> [--age <n>] [--factor <f>] [--disabled] [--children <n>] [--max-cap <eur>]`
+- `betriebsrat sozialplan-calc --csv <file> [--factor <f>] [--max-cap <eur>]` — CSV: `name,salary,years,age,disabled,children[,factor[,max_cap]]`
 
 **massenentlassung** — Check § 17 KSchG threshold and generate compliance procedure
-- `betriebsrat-pp-cli massenentlassung --employees <n> --planned <n>` — both flags required
+- `betriebsrat massenentlassung --employees <n> --planned <n>` — both flags required
 - Output: triggered/not, 7-step procedure (BR consultation → Stellungnahme → Interessenausgleich/Sozialplan → Anzeige → Sperrfrist → § 102 per person → Kündigung), legal consequences
 
 **widerspruch-check** — Advise on § 102 Abs. 3 Widerspruch grounds and draft ground text
-- `betriebsrat-pp-cli widerspruch-check [--type betriebsbedingt|verhaltensbedingt|personenbedingt] [--wrong-social-selection] [--seniority-ignored] [--other-position] [--retraining] [--reduced-hours] [--bv-violation] [--no-warning] [--employee "<name>"]`
+- `betriebsrat widerspruch-check [--type betriebsbedingt|verhaltensbedingt|personenbedingt] [--wrong-social-selection] [--seniority-ignored] [--other-position] [--retraining] [--reduced-hours] [--bv-violation] [--no-warning] [--employee "<name>"]`
 - Output: applicable grounds ranked by strength, draft Widerspruch text, deadline reminder
 
 **auskunft** — Draft a formal § 80 BetrVG information request letter
-- `betriebsrat-pp-cli auskunft --topic <topic> [--custom "<text>"] [--reason "<text>"] [--employer "<name>"] [--deadline-days <n>] [--date YYYY-MM-DD] [--lang en|de]`
+- `betriebsrat auskunft --topic <topic> [--custom "<text>"] [--reason "<text>"] [--employer "<name>"] [--deadline-days <n>] [--date YYYY-MM-DD] [--lang en|de]`
 - Topics: `sozialdaten` · `stellenplan` · `gehaelter` · `planung` · `auswahlrichtlinien` · `ki` · `wirtschaft` · `custom`
 
 **ki-check** — Check § 87 Nr. 6 co-determination for an AI/IT system
-- `betriebsrat-pp-cli ki-check --system "<description>" [--purpose "<text>"] [--data "<categories>"] [--monitors-performance] [--monitors-location] [--monitors-comms] [--influences-hr] [--biometric] [--auto-decision] [--lang en|de]`
+- `betriebsrat ki-check --system "<description>" [--purpose "<text>"] [--data "<categories>"] [--monitors-performance] [--monitors-location] [--monitors-comms] [--influences-hr] [--biometric] [--auto-decision] [--lang en|de]`
 - Output: triggered/not, risk level (low/medium/high/very high), required BV clauses, employer prohibitions, 4 BAG rulings
 
 **nachteilsausgleich** — Calculate § 113 BetrVG disadvantage compensation claim
-- `betriebsrat-pp-cli nachteilsausgleich --salary <eur> --years <n> [--age <n>] [--measure "<text>"] --no-ia-attempted | --ia-deviated [--factor <f>] [--lang en|de]`
+- `betriebsrat nachteilsausgleich --salary <eur> --years <n> [--age <n>] [--measure "<text>"] --no-ia-attempted | --ia-deviated [--factor <f>] [--lang en|de]`
 - Cap: 12 × monthly salary; Sozialplan offset applies; evidence checklist included
 
 **protokoll** — Generate formal BR Sitzungsprotokoll template
-- `betriebsrat-pp-cli protokoll [--topic "<text>"] [--date YYYY-MM-DD] [--br-size <n>] [--location "<text>"] [--employer "<text>"]`
+- `betriebsrat protokoll [--topic "<text>"] [--date YYYY-MM-DD] [--br-size <n>] [--location "<text>"] [--employer "<text>"]`
 - Output: complete template with quorum calculation, attendance sheet, TOP structure, voting rows, signature block
 
 **check-anhoerung** — Check a § 102 Anhörungsschreiben for completeness
-- `betriebsrat-pp-cli check-anhoerung "<letter text>" [--type ordentlich|außerordentlich]`
+- `betriebsrat check-anhoerung "<letter text>" [--type ordentlich|außerordentlich]`
 - Reports: which required fields are present/missing, whether 7-day clock is running, severity per gap
 
 **bv-template** — Generate a skeleton Betriebsvereinbarung
-- `betriebsrat-pp-cli bv-template <topic> [--employer "<name>"] [--date YYYY-MM-DD]`
+- `betriebsrat bv-template <topic> [--employer "<name>"] [--date YYYY-MM-DD]`
 - Topics: `homeoffice` | `software` | `arbeitszeit` | `datenschutz` | `videoüberwachung` | `leistungsbeurteilung`
 
 **schulungsantrag** — Draft a § 37 Abs. 6 BetrVG training request letter
-- `betriebsrat-pp-cli schulungsantrag --topic <topic> [--training-name "<name>"] [--provider "<name>"] [--employer "<name>"]`
+- `betriebsrat schulungsantrag --topic <topic> [--training-name "<name>"] [--provider "<name>"] [--employer "<name>"]`
 - Topics: `betrvg` | `arbeitsrecht` | `betriebsrat-praxis` | `kuendigung` | `sozialplan` | `datenschutz` | `gesundheit` | `custom`
 - Output: complete letter with legal justification, including cost and release-from-work claims
 - `--lang en` supported; letter body stays in German (formal legal document)
 
 **tarifvertrag-check** — Check § 77 Abs. 3 Tarifvorbehalt before drafting a BV
-- `betriebsrat-pp-cli tarifvertrag-check --topic <topic> [--tv-type "<type>"] [--tv-covers] [--opening-clause]`
+- `betriebsrat tarifvertrag-check --topic <topic> [--tv-type "<type>"] [--tv-covers] [--opening-clause]`
 - Topics: `lohn` | `arbeitszeit` | `urlaub` | `zulagen` | `homeoffice` | `software` | `gesundheit` | `custom`
 - Output: blocked/not-blocked verdict, what the BV can and cannot cover, legal basis
 - Always run this before drafting a BV in a TV-regulated area
 
 **deadline** (updated) — now supports `--ical` flag
-- `betriebsrat-pp-cli deadline "ordentliche Kündigung" --from 2026-05-10 --ical > frist.ics`
+- `betriebsrat deadline "ordentliche Kündigung" --from 2026-05-10 --ical > frist.ics`
 - Outputs a standard iCalendar file with a 1-day-before reminder; importable into Apple Calendar, Outlook, Google Calendar
 
 **sync** — Populate or refresh the local SQLite knowledge base
-- `betriebsrat-pp-cli sync` — Sync all topic areas (run once; safe to re-run)
+- `betriebsrat sync` — Sync all topic areas (run once; safe to re-run)
 
 **search** — Full-text search across the synced knowledge base
-- `betriebsrat-pp-cli search "<query>" --data-source local` — Find passages in synced data
+- `betriebsrat search "<query>" --data-source local` — Find passages in synced data
 
 ### Finding the right command
 
 ```bash
-betriebsrat-pp-cli which "<capability in your own words>"
+betriebsrat which "<capability in your own words>"
 ```
 
 ---
 
 ## Auth Setup
 
-No authentication required. Run `betriebsrat-pp-cli doctor` to verify setup.
+No authentication required. Run `betriebsrat doctor` to verify setup.
 
 ---
 
@@ -781,7 +781,7 @@ Add `--agent` to any command. Expands to: `--json --compact --no-input --no-colo
 
 Parse `$ARGUMENTS`:
 
-1. **Empty, `help`, or `--help`** → show `betriebsrat-pp-cli --help` output
+1. **Empty, `help`, or `--help`** → show `betriebsrat --help` output
 2. **Starts with `install`** → ends with `mcp` → MCP installation; otherwise → see Prerequisites above
 3. **Anything else** → Direct Use (execute as CLI command with `--agent`)
 
@@ -799,7 +799,7 @@ Verify: `claude mcp list`
 
 ## Direct Use
 
-1. Check if installed: `which betriebsrat-pp-cli`
+1. Check if installed: `which betriebsrat`
    If not found, offer to install (see Prerequisites).
 2. Match the user query to the best scenario playbook or command.
 3. Execute with the `--agent` flag — chain multiple commands for a complete picture.

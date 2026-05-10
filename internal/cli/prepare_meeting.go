@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"betriebsrat-pp-cli/internal/betrvg"
+	"betriebsrat/internal/betrvg"
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
@@ -25,9 +25,9 @@ func newPrepareMeetingCmd(flags *rootFlags) *cobra.Command {
 Includes: suggested agenda items, quorum requirements, questions to ask the employer,
 and relevant legal basis.`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli prepare-meeting "Einführung KI-System"
-  betriebsrat-pp-cli prepare-meeting Kündigung --json
-  betriebsrat-pp-cli prepare-meeting "Homeoffice" --agent`, "\n"),
+  betriebsrat prepare-meeting "Einführung KI-System"
+  betriebsrat prepare-meeting Kündigung --json
+  betriebsrat prepare-meeting "Homeoffice" --agent`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

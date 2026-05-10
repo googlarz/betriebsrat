@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"betriebsrat-pp-cli/internal/betrvg"
+	"betriebsrat/internal/betrvg"
 	"encoding/json"
 	"fmt"
 	"regexp"
@@ -50,9 +50,9 @@ Examples (BR member):
   "Wir haben eine Anhörung für eine Kündigung erhalten. Was müssen wir tun?"
   "Does the employer need our consent for a mass layoff?"`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli ask "Ich wurde fristlos entlassen. Was nun?"
-  betriebsrat-pp-cli ask "Employer introducing Teams analytics. Do we have co-determination?" --lang en
-  betriebsrat-pp-cli ask "Wie viel Sozialplan bekomme ich bei 8 Jahren und 4500 Euro?" --json`, "\n"),
+  betriebsrat ask "Ich wurde fristlos entlassen. Was nun?"
+  betriebsrat ask "Employer introducing Teams analytics. Do we have co-determination?" --lang en
+  betriebsrat ask "Wie viel Sozialplan bekomme ich bei 8 Jahren und 4500 Euro?" --json`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},
@@ -164,11 +164,11 @@ func buildAskResult(lang, question string) askResult {
 		result.Answer = classificationFallback(lang, classification)
 		result.Actions = []string{
 			tr(lang,
-				"Genaue Analyse: betriebsrat-pp-cli rights-check \""+question+"\"",
-				"Precise analysis: betriebsrat-pp-cli rights-check \""+question+"\""),
+				"Genaue Analyse: betriebsrat rights-check \""+question+"\"",
+				"Precise analysis: betriebsrat rights-check \""+question+"\""),
 			tr(lang,
-				"Vollständige Entscheidungsunterstützung: betriebsrat-pp-cli decide \""+question+"\"",
-				"Full decision support: betriebsrat-pp-cli decide \""+question+"\""),
+				"Vollständige Entscheidungsunterstützung: betriebsrat decide \""+question+"\"",
+				"Full decision support: betriebsrat decide \""+question+"\""),
 		}
 	}
 
@@ -213,8 +213,8 @@ func buildAskResult(lang, question string) askResult {
 		if role == "employee" {
 			result.SozialplanHint = fmt.Sprintf(
 				tr(lang,
-					"Geschätzte Sozialplanabfindung (Münchner Formel, Faktor 0,75): %.0f € — genauer mit: betriebsrat-pp-cli sozialplan-calc --salary %.0f --years %.0f --factor 0.75",
-					"Estimated Sozialplan entitlement (Munich formula, factor 0.75): €%.0f — refine with: betriebsrat-pp-cli sozialplan-calc --salary %.0f --years %.0f --factor 0.75"),
+					"Geschätzte Sozialplanabfindung (Münchner Formel, Faktor 0,75): %.0f € — genauer mit: betriebsrat sozialplan-calc --salary %.0f --years %.0f --factor 0.75",
+					"Estimated Sozialplan entitlement (Munich formula, factor 0.75): €%.0f — refine with: betriebsrat sozialplan-calc --salary %.0f --years %.0f --factor 0.75"),
 				estimate, salary, years)
 		}
 	}
@@ -319,13 +319,13 @@ func buildEmployeeActions(lang, question string, strongest betrvg.CoDeterminatio
 		actions = append(actions,
 			tr(lang, "Kündigungsschutzklage beim Arbeitsgericht innerhalb von 3 Wochen nach Zugang der Kündigung einreichen (§ 4 KSchG)", "File Kündigungsschutzklage at the labour court within 3 weeks of receiving the dismissal (§ 4 KSchG)"),
 			tr(lang, "Anhörungsschreiben anfordern: Hat der BR ein vollständiges Anhörungsschreiben erhalten?", "Request the Anhörungsschreiben: did the BR receive a complete hearing letter?"),
-			tr(lang, "Prüfen lassen: betriebsrat-pp-cli check-anhoerung \"<text des Anhörungsschreibens>\"", "Check with: betriebsrat-pp-cli check-anhoerung \"<text of the hearing letter>\""),
+			tr(lang, "Prüfen lassen: betriebsrat check-anhoerung \"<text des Anhörungsschreibens>\"", "Check with: betriebsrat check-anhoerung \"<text of the hearing letter>\""),
 			tr(lang, "Bei fehlerhafter Sozialauswahl: BR kann Widerspruch einlegen → Recht auf Weiterbeschäftigung während des Klageverfahrens (§ 102 Abs. 5)", "If social selection was wrong: BR can object → right to continued employment during the appeal (§ 102 Abs. 5)"),
 		)
 	} else if containsAny(low, "sozialplan", "abfindung", "betriebsänderung", "redundancy", "layoff") {
 		actions = append(actions,
-			tr(lang, "Sozialplanabfindung berechnen: betriebsrat-pp-cli sozialplan-calc --salary <monatslohn> --years <betriebsjahre>", "Calculate Sozialplan entitlement: betriebsrat-pp-cli sozialplan-calc --salary <monthly_salary> --years <years_service>"),
-			tr(lang, "Bei fehlendem Interessenausgleich: Nachteilsausgleich nach § 113 BetrVG prüfen — betriebsrat-pp-cli nachteilsausgleich --salary <lohn> --years <jahre> --no-ia-attempted", "If Interessenausgleich was skipped: check Nachteilsausgleich under § 113 BetrVG — betriebsrat-pp-cli nachteilsausgleich --salary <salary> --years <years> --no-ia-attempted"),
+			tr(lang, "Sozialplanabfindung berechnen: betriebsrat sozialplan-calc --salary <monatslohn> --years <betriebsjahre>", "Calculate Sozialplan entitlement: betriebsrat sozialplan-calc --salary <monthly_salary> --years <years_service>"),
+			tr(lang, "Bei fehlendem Interessenausgleich: Nachteilsausgleich nach § 113 BetrVG prüfen — betriebsrat nachteilsausgleich --salary <lohn> --years <jahre> --no-ia-attempted", "If Interessenausgleich was skipped: check Nachteilsausgleich under § 113 BetrVG — betriebsrat nachteilsausgleich --salary <salary> --years <years> --no-ia-attempted"),
 			tr(lang, "Fachanwalt für Arbeitsrecht konsultieren", "Consult a labour law specialist"),
 		)
 	} else {
@@ -356,8 +356,8 @@ func classificationFallback(lang, classification string) string {
 			"Operational changes (§ 111 BetrVG) trigger information, consultation and negotiation obligations. The Sozialplan is legally enforceable.")
 	default:
 		return tr(lang,
-			"Für diese Situation empfehle ich eine detaillierte Analyse mit: betriebsrat-pp-cli decide \"<Ihre Situation>\"",
-			"For this situation I recommend a detailed analysis with: betriebsrat-pp-cli decide \"<your situation>\"")
+			"Für diese Situation empfehle ich eine detaillierte Analyse mit: betriebsrat decide \"<Ihre Situation>\"",
+			"For this situation I recommend a detailed analysis with: betriebsrat decide \"<your situation>\"")
 	}
 }
 

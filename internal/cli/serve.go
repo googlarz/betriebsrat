@@ -21,8 +21,8 @@ workplace questions in plain German or English — no CLI knowledge needed.
 This is the easiest way to share the tool with employees or BR members
 who are not comfortable with the terminal.`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli serve
-  betriebsrat-pp-cli serve --port 9000`, "\n"),
+  betriebsrat serve
+  betriebsrat serve --port 9000`, "\n"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if dryRunOK(flags) {
 				return nil

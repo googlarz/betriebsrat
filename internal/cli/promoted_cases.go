@@ -17,7 +17,7 @@ func newCasesPromotedCmd(flags *rootFlags) *cobra.Command {
 		Use:         "cases",
 		Short:       "Fetch recent court decisions relevant to works councils",
 		Long:        "Shortcut for 'cases list'. Fetch recent court decisions relevant to works councils",
-		Example:     "  betriebsrat-pp-cli cases",
+		Example:     "  betriebsrat cases",
 		Annotations: map[string]string{"pp:endpoint": "cases.list", "pp:method": "GET", "pp:path": "/br/themen/rechtsprechung/uebersicht", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

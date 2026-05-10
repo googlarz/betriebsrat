@@ -12,11 +12,11 @@ import (
 	"strings"
 	"time"
 
-	"betriebsrat-pp-cli/internal/cli"
-	"betriebsrat-pp-cli/internal/client"
-	"betriebsrat-pp-cli/internal/config"
-	"betriebsrat-pp-cli/internal/mcp/cobratree"
-	"betriebsrat-pp-cli/internal/store"
+	"betriebsrat/internal/cli"
+	"betriebsrat/internal/client"
+	"betriebsrat/internal/config"
+	"betriebsrat/internal/mcp/cobratree"
+	"betriebsrat/internal/store"
 	mcplib "github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
 )
@@ -212,11 +212,11 @@ func makeAPIHandler(method, pathTemplate string, bindings []mcpParamBinding, pos
 			case strings.Contains(msg, "HTTP 401"):
 				return mcplib.NewToolResultError("authentication failed: " + msg +
 					"\nhint: check your API credentials." +
-					"\n      Run 'betriebsrat-pp-cli doctor' to check auth status."), nil
+					"\n      Run 'betriebsrat doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 403"):
 				return mcplib.NewToolResultError("permission denied: " + msg +
 					"\nhint: this API is configured without credentials; the service may be blocking the request by rate limit, geography, bot protection, or endpoint policy." +
-					"\n      Run 'betriebsrat-pp-cli doctor' to check auth status."), nil
+					"\n      Run 'betriebsrat doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 404"):
 				if method == "DELETE" {
 					return mcplib.NewToolResultText("already deleted (no-op)"), nil
@@ -250,7 +250,7 @@ func makeAPIHandler(method, pathTemplate string, bindings []mcpParamBinding, pos
 
 func newMCPClient() (*client.Client, error) {
 	home, _ := os.UserHomeDir()
-	cfgPath := filepath.Join(home, ".config", "betriebsrat-pp-cli", "config.toml")
+	cfgPath := filepath.Join(home, ".config", "betriebsrat", "config.toml")
 	cfg, err := config.Load(cfgPath)
 	if err != nil {
 		return nil, fmt.Errorf("loading config: %w", err)
@@ -267,7 +267,7 @@ func newMCPClient() (*client.Client, error) {
 
 func dbPath() string {
 	home, _ := os.UserHomeDir()
-	return filepath.Join(home, ".local", "share", "betriebsrat-pp-cli", "data.db")
+	return filepath.Join(home, ".local", "share", "betriebsrat", "data.db")
 }
 
 // Note: MCP tools use their own dbPath() because they are in a separate package (main, not cli).
@@ -404,7 +404,7 @@ func handleContext(_ context.Context, _ mcplib.CallToolRequest) (*mcplib.CallToo
 		"archetype":   "content",
 		"tool_count":  6,
 		// tool_surface tells agents which surface a capability lives on.
-		"tool_surface": "MCP exposes typed endpoint tools plus a runtime mirror of user-facing CLI commands. Endpoint tools keep typed schemas; command-mirror tools shell out to the companion betriebsrat-pp-cli binary.",
+		"tool_surface": "MCP exposes typed endpoint tools plus a runtime mirror of user-facing CLI commands. Endpoint tools keep typed schemas; command-mirror tools shell out to the companion betriebsrat binary.",
 		"resources": []map[string]any{
 			{
 				"name":        "articles",

@@ -16,7 +16,7 @@ func newGlossaryListCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "list",
 		Short:       "Browse legal terms glossary",
-		Example:     "  betriebsrat-pp-cli glossary list",
+		Example:     "  betriebsrat glossary list",
 		Annotations: map[string]string{"pp:endpoint": "glossary.list", "pp:method": "GET", "pp:path": "/br/service/lexikon", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()

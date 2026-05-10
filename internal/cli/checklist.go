@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"betriebsrat-pp-cli/internal/betrvg"
+	"betriebsrat/internal/betrvg"
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
@@ -19,9 +19,9 @@ and recommended actions with BetrVG references.
 Supported situations: Kündigung, Betriebsänderung, Software-Einführung,
 Einstellung, Versetzung, Homeoffice, and more.`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli checklist "Kündigung"
-  betriebsrat-pp-cli checklist "Betriebsänderung" --json
-  betriebsrat-pp-cli checklist "Homeoffice Regelung" --agent --select situation,steps`, "\n"),
+  betriebsrat checklist "Kündigung"
+  betriebsrat checklist "Betriebsänderung" --json
+  betriebsrat checklist "Homeoffice Regelung" --agent --select situation,steps`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

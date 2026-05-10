@@ -4,8 +4,8 @@
 package client
 
 import (
-	"betriebsrat-pp-cli/internal/cliutil"
-	"betriebsrat-pp-cli/internal/config"
+	"betriebsrat/internal/cliutil"
+	"betriebsrat/internal/config"
 	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
@@ -49,7 +49,7 @@ func newHTTPClient(timeout time.Duration, jar http.CookieJar) *http.Client {
 
 func New(cfg *config.Config, timeout time.Duration, rateLimit float64) *Client {
 	homeDir, _ := os.UserHomeDir()
-	cacheDir := filepath.Join(homeDir, ".cache", "betriebsrat-pp-cli")
+	cacheDir := filepath.Join(homeDir, ".cache", "betriebsrat")
 	httpClient := newHTTPClient(timeout, nil)
 	return &Client{
 		BaseURL:    strings.TrimRight(cfg.BaseURL, "/"),
@@ -228,7 +228,7 @@ func (c *Client) do(method, path string, params map[string]string, body any, hea
 			req.Header.Set(k, v)
 		}
 		if req.Header.Get("User-Agent") == "" {
-			req.Header.Set("User-Agent", "betriebsrat-pp-cli/")
+			req.Header.Set("User-Agent", "betriebsrat/")
 		}
 
 		resp, err := c.HTTPClient.Do(req)

@@ -17,7 +17,7 @@ func newTopicsGetCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:         "get",
 		Short:       "Fetch full topic overview page with articles and guides",
-		Example:     "  betriebsrat-pp-cli topics get --topic example-value",
+		Example:     "  betriebsrat topics get --topic example-value",
 		Annotations: map[string]string{"pp:endpoint": "topics.get", "pp:method": "GET", "pp:path": "/br/themen/{topic}/uebersicht", "mcp:read-only": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !cmd.Flags().Changed("topic") && !flags.dryRun {

@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"betriebsrat-pp-cli/internal/betrvg"
+	"betriebsrat/internal/betrvg"
 	"encoding/json"
 	"fmt"
 	"strings"
@@ -36,9 +36,9 @@ Key deadlines (BetrVG):
   § 99   Einstellung / Versetzung: 1 Woche
   § 17 KSchG  Massenentlassung: 30 Tage`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli deadline "ordentliche Kündigung"
-  betriebsrat-pp-cli deadline "außerordentliche Kündigung" --from 2026-05-09
-  betriebsrat-pp-cli deadline "Einstellung neuer Mitarbeiter" --json`, "\n"),
+  betriebsrat deadline "ordentliche Kündigung"
+  betriebsrat deadline "außerordentliche Kündigung" --from 2026-05-09
+  betriebsrat deadline "Einstellung neuer Mitarbeiter" --json`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},
@@ -119,7 +119,7 @@ Key deadlines (BetrVG):
 }
 
 func printDeadlineIcal(cmd *cobra.Command, result deadlineResult, situation string, from, due time.Time) error {
-	uid := fmt.Sprintf("betriebsrat-%d-%s@betriebsrat-pp-cli", result.Paragraph, from.Format("20060102"))
+	uid := fmt.Sprintf("betriebsrat-%d-%s@betriebsrat", result.Paragraph, from.Format("20060102"))
 	nowStamp := time.Now().UTC().Format("20060102T150405Z")
 	dueStamp := due.Format("20060102") // all-day event
 
@@ -129,7 +129,7 @@ func printDeadlineIcal(cmd *cobra.Command, result deadlineResult, situation stri
 
 	ics := fmt.Sprintf(`BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//betriebsrat-pp-cli//DE
+PRODID:-//betriebsrat//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT

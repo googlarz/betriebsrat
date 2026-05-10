@@ -57,9 +57,9 @@ The five grounds (§ 102 Abs. 3 Nr. 1–5):
   Nr. 4 — Weiterbeschäftigung nach Umschulung/Fortbildung möglich
   Nr. 5 — Weiterbeschäftigung zu geänderten Bedingungen möglich (mit Einverständnis AN)`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli widerspruch-check --type betriebsbedingt --wrong-social-selection --other-position
-  betriebsrat-pp-cli widerspruch-check --type betriebsbedingt --seniority-ignored --employee "Max Mustermann" --agent
-  betriebsrat-pp-cli widerspruch-check --type verhaltensbedingt --no-warning --bv-violation`, "\n"),
+  betriebsrat widerspruch-check --type betriebsbedingt --wrong-social-selection --other-position
+  betriebsrat widerspruch-check --type betriebsbedingt --seniority-ignored --employee "Max Mustermann" --agent
+  betriebsrat widerspruch-check --type verhaltensbedingt --no-warning --bv-violation`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

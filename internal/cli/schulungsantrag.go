@@ -73,9 +73,9 @@ Common topics:
   gesundheit    Occupational health and safety / company health management
   custom        Custom training name (via --training-name)`),
 		Example: strings.Trim(`
-  betriebsrat-pp-cli schulungsantrag --topic betrvg --employer "Musterfirma GmbH"
-  betriebsrat-pp-cli schulungsantrag --topic kuendigung --provider "ver.di Bildung" --employer "AG GmbH" --agent
-  betriebsrat-pp-cli schulungsantrag --topic custom --training-name "KI im Betrieb" --employer "TechCo" --lang en`, "\n"),
+  betriebsrat schulungsantrag --topic betrvg --employer "Musterfirma GmbH"
+  betriebsrat schulungsantrag --topic kuendigung --provider "ver.di Bildung" --employer "AG GmbH" --agent
+  betriebsrat schulungsantrag --topic custom --training-name "KI im Betrieb" --employer "TechCo" --lang en`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

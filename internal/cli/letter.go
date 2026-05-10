@@ -33,10 +33,10 @@ Types for kündigung:        zustimmung | bedenken | widerspruch
 Types for einstellung/versetzung:  zustimmung | verweigerung
 Types for betriebsänderung: unterrichtung | interessenausgleich`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli letter kündigung --type widerspruch --employee "Max Mustermann" --ground "fehlerhafte Sozialauswahl"
-  betriebsrat-pp-cli letter einstellung --type verweigerung --employee "Anna Schmidt" --ground "Nachteil bestehender Mitarbeiter § 99 Abs. 2 Nr. 3"
-  betriebsrat-pp-cli letter betriebsänderung --type unterrichtung --measure "Schließung Filiale Hamburg" --affected 45
-  betriebsrat-pp-cli letter betriebsänderung --type interessenausgleich --measure "Verlagerung Produktion" --agent`, "\n"),
+  betriebsrat letter kündigung --type widerspruch --employee "Max Mustermann" --ground "fehlerhafte Sozialauswahl"
+  betriebsrat letter einstellung --type verweigerung --employee "Anna Schmidt" --ground "Nachteil bestehender Mitarbeiter § 99 Abs. 2 Nr. 3"
+  betriebsrat letter betriebsänderung --type unterrichtung --measure "Schließung Filiale Hamburg" --affected 45
+  betriebsrat letter betriebsänderung --type interessenausgleich --measure "Verlagerung Produktion" --agent`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

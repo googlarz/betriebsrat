@@ -80,9 +80,9 @@ Prerequisites for a claim (§ 113 Abs. 3 BetrVG):
 
 Calculation: by analogy to § 10 KSchG (severance formula); statutory cap: 12 monthly salaries.`),
 		Example: strings.Trim(`
-  betriebsrat-pp-cli nachteilsausgleich --salary 4500 --years 8 --age 42 --measure "Standortschließung" --no-ia-attempted
-  betriebsrat-pp-cli nachteilsausgleich --salary 6000 --years 15 --age 55 --measure "Verlagerung ins Ausland" --ia-deviated --factor 0.8 --agent
-  betriebsrat-pp-cli nachteilsausgleich --salary 3800 --years 5 --age 38 --measure "Massenentlassung § 17 KSchG" --no-ia-attempted --lang en`, "\n"),
+  betriebsrat nachteilsausgleich --salary 4500 --years 8 --age 42 --measure "Standortschließung" --no-ia-attempted
+  betriebsrat nachteilsausgleich --salary 6000 --years 15 --age 55 --measure "Verlagerung ins Ausland" --ia-deviated --factor 0.8 --agent
+  betriebsrat nachteilsausgleich --salary 3800 --years 5 --age 38 --measure "Massenentlassung § 17 KSchG" --no-ia-attempted --lang en`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

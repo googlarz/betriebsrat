@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"betriebsrat-pp-cli/internal/store"
+	"betriebsrat/internal/store"
 	"github.com/spf13/cobra"
 )
 
@@ -35,10 +35,10 @@ func newWorkflowArchiveCmd(flags *rootFlags) *cobra.Command {
 local SQLite database. Supports incremental sync (only new data since last run)
 and full resync. After archiving, use 'search' for instant full-text search.`,
 		Example: `  # Archive all resources
-  betriebsrat-pp-cli workflow archive
+  betriebsrat workflow archive
 
   # Full re-archive (ignore previous sync state)
-  betriebsrat-pp-cli workflow archive --full`,
+  betriebsrat workflow archive --full`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c, err := flags.newClient()
 			if err != nil {
@@ -47,7 +47,7 @@ and full resync. After archiving, use 'search' for instant full-text search.`,
 			c.NoCache = true
 
 			if dbPath == "" {
-				dbPath = defaultDBPath("betriebsrat-pp-cli")
+				dbPath = defaultDBPath("betriebsrat")
 			}
 			s, err := store.OpenWithContext(cmd.Context(), dbPath)
 			if err != nil {
@@ -137,7 +137,7 @@ and full resync. After archiving, use 'search' for instant full-text search.`,
 		},
 	}
 
-	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/betriebsrat-pp-cli/data.db)")
+	cmd.Flags().StringVar(&dbPath, "db", "", "Database path (default: ~/.local/share/betriebsrat/data.db)")
 	cmd.Flags().BoolVar(&full, "full", false, "Full re-archive (ignore previous sync state)")
 
 	return cmd
@@ -151,13 +151,13 @@ func newWorkflowStatusCmd(flags *rootFlags) *cobra.Command {
 		Short:       "Show local archive status and sync state for all resources",
 		Annotations: map[string]string{"mcp:read-only": "true"},
 		Example: `  # Show archive status
-  betriebsrat-pp-cli workflow status
+  betriebsrat workflow status
 
   # Show status as JSON
-  betriebsrat-pp-cli workflow status --json`,
+  betriebsrat workflow status --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if dbPath == "" {
-				dbPath = defaultDBPath("betriebsrat-pp-cli")
+				dbPath = defaultDBPath("betriebsrat")
 			}
 			s, err := store.OpenWithContext(cmd.Context(), dbPath)
 			if err != nil {

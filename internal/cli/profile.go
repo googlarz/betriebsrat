@@ -33,7 +33,7 @@ func profileStorePath() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("resolving home dir: %w", err)
 	}
-	dir := filepath.Join(home, ".betriebsrat-pp-cli")
+	dir := filepath.Join(home, ".betriebsrat")
 	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return "", fmt.Errorf("creating state dir: %w", err)
 	}
@@ -173,8 +173,8 @@ entry is replaced.
 
 To avoid creating empty profiles, at least one non-default flag must be
 present (other than --profile and --config).`,
-		Example: `  betriebsrat-pp-cli profile save my-defaults --json --compact
-  betriebsrat-pp-cli profile save tonight-defaults --region US`,
+		Example: `  betriebsrat profile save my-defaults --json --compact
+  betriebsrat profile save tonight-defaults --region US`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			name := args[0]
@@ -217,8 +217,8 @@ func newProfileUseCmd(flags *rootFlags) *cobra.Command {
 	return &cobra.Command{
 		Use:   "use <name>",
 		Short: "Print the flag values a profile will apply (does not execute anything)",
-		Example: `  betriebsrat-pp-cli profile use my-defaults
-  betriebsrat-pp-cli profile use tonight-defaults --json`,
+		Example: `  betriebsrat profile use my-defaults
+  betriebsrat profile use tonight-defaults --json`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			p, err := GetProfile(args[0])
@@ -252,8 +252,8 @@ func newProfileListCmd(flags *rootFlags) *cobra.Command {
 	return &cobra.Command{
 		Use:   "list",
 		Short: "List saved profiles",
-		Example: `  betriebsrat-pp-cli profile list
-  betriebsrat-pp-cli profile list --json`,
+		Example: `  betriebsrat profile list
+  betriebsrat profile list --json`,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			s, err := loadProfileStore()
 			if err != nil {
@@ -291,8 +291,8 @@ func newProfileShowCmd(flags *rootFlags) *cobra.Command {
 	return &cobra.Command{
 		Use:   "show <name>",
 		Short: "Show a profile's values as JSON",
-		Example: `  betriebsrat-pp-cli profile show my-defaults
-  betriebsrat-pp-cli profile show tonight-defaults --json`,
+		Example: `  betriebsrat profile show my-defaults
+  betriebsrat profile show tonight-defaults --json`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			p, err := GetProfile(args[0])
@@ -311,8 +311,8 @@ func newProfileDeleteCmd(flags *rootFlags) *cobra.Command {
 	return &cobra.Command{
 		Use:   "delete <name>",
 		Short: "Remove a profile",
-		Example: `  betriebsrat-pp-cli profile delete my-defaults --yes
-  betriebsrat-pp-cli profile delete old-profile --yes --json`,
+		Example: `  betriebsrat profile delete my-defaults --yes
+  betriebsrat profile delete old-profile --yes --json`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			name := args[0]

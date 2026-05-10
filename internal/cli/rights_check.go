@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"betriebsrat-pp-cli/internal/betrvg"
+	"betriebsrat/internal/betrvg"
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
@@ -36,9 +36,9 @@ Mitwirkung, Unterrichtung, Beratung, Zustimmungsvorbehalt, or keine.
 This is the single most common question for works council members:
 "Haben wir ein Mitbestimmungsrecht?" / "Does the employer need our consent?"`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli rights-check "Arbeitgeber will Überwachungssoftware einführen"
-  betriebsrat-pp-cli rights-check "Kündigung eines Mitarbeiters" --json
-  betriebsrat-pp-cli rights-check "Homeoffice Regelung" --agent`, "\n"),
+  betriebsrat rights-check "Arbeitgeber will Überwachungssoftware einführen"
+  betriebsrat rights-check "Kündigung eines Mitarbeiters" --json
+  betriebsrat rights-check "Homeoffice Regelung" --agent`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"betriebsrat-pp-cli/internal/betrvg"
+	"betriebsrat/internal/betrvg"
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
@@ -18,10 +18,10 @@ including co-determination classification, topic link, and deadlines.
 
 Use the paragraph number (e.g. 87, 102, 111) or a keyword search.`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli law 87
-  betriebsrat-pp-cli law 102 --json
-  betriebsrat-pp-cli law kündigung
-  betriebsrat-pp-cli law 99 --agent`, "\n"),
+  betriebsrat law 87
+  betriebsrat law 102 --json
+  betriebsrat law kündigung
+  betriebsrat law 99 --agent`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

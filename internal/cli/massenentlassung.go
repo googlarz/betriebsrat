@@ -55,9 +55,9 @@ under § 17 KSchG and generates the complete step-by-step compliance checklist.
 CRITICAL: Kündigungen without proper Massenentlassungsanzeige are VOID
 (§ 17 Abs. 1 KSchG; BAG Urt. v. 22.09.2016 – 2 AZR 276/16).`,
 		Example: strings.Trim(`
-  betriebsrat-pp-cli massenentlassung --employees 150 --planned 18
-  betriebsrat-pp-cli massenentlassung --employees 60 --planned 7 --agent
-  betriebsrat-pp-cli massenentlassung --employees 500 --planned 35 --json`, "\n"),
+  betriebsrat massenentlassung --employees 150 --planned 18
+  betriebsrat massenentlassung --employees 60 --planned 7 --agent
+  betriebsrat massenentlassung --employees 500 --planned 35 --json`, "\n"),
 		Annotations: map[string]string{
 			"mcp:read-only": "true",
 		},

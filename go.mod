@@ -1,4 +1,4 @@
-module betriebsrat-pp-cli
+module betriebsrat
 
 go 1.26.3
 
