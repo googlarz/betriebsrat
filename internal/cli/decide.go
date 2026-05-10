@@ -155,18 +155,21 @@ Use for complex situations where you need a complete picture quickly.`,
 func classifySituation(lang, situation string) string {
 	low := strings.ToLower(situation)
 	switch {
-	case containsAny(low, "kündigung", "entlassung", "fristlos", "dismissal", "termination", "dismiss", "dismissing"):
+	// Technical systems checked first — "co-determination" must not fall into dismissal via "termination"
+	case containsAny(low, "software", "analytics", "überwachung", "monitoring", "ki-system", "ki system",
+		"künstliche intelligenz", "system einführung", "artificial intelligence", "surveillance", "tracking"):
+		return tr(lang, "Technische Einrichtung – Mitbestimmung nach § 87 Abs. 1 Nr. 6", "Technical facility – Co-determination under § 87 Abs. 1 Nr. 6")
+	case containsAny(low, "massenentlassung", "sozialplan", "mass dismissal", "mass redundancy", "mass layoff", "layoff"):
+		return tr(lang, "Massenentlassung / Sozialplan (§ 112 BetrVG, § 17 KSchG)", "Mass dismissal / Sozialplan (§ 112 BetrVG, § 17 KSchG)")
+	case containsAny(low, "kündigung", "entlassung", "fristlos", "dismissal", "dismiss", "dismissing", "fired", "firing") ||
+		containsWholeWord(low, "termination"):
 		return tr(lang, "Personelle Angelegenheit – Kündigung", "Personnel matter – Dismissal")
 	case containsAny(low, "betriebsänderung", "verlagerung", "stilllegung", "umstrukturierung", "outsourcing", "restructuring", "relocation", "closure"):
 		return tr(lang, "Betriebsänderung (§ 111 ff. BetrVG)", "Operational change (§ 111 ff. BetrVG)")
-	case containsAny(low, "software", "überwachung", "monitoring", "ki", "künstliche intelligenz", "system einführung", "artificial intelligence", "surveillance"):
-		return tr(lang, "Technische Einrichtung – Mitbestimmung nach § 87 Abs. 1 Nr. 6", "Technical facility – Co-determination under § 87 Abs. 1 Nr. 6")
 	case containsAny(low, "homeoffice", "remote", "mobiles arbeiten", "telearbeit", "working from home", "mobile work"):
 		return tr(lang, "Arbeitszeitregelung / Mobiles Arbeiten – § 87 Abs. 1 Nr. 1, 2", "Working time / Mobile work – § 87 Abs. 1 Nr. 1, 2")
 	case containsAny(low, "einstellung", "versetzung", "umgruppierung", "hiring", "transfer", "regrading"):
 		return tr(lang, "Personelle Einzelmaßnahme (§ 99 BetrVG)", "Individual personnel measure (§ 99 BetrVG)")
-	case containsAny(low, "massenentlassung", "sozialplan", "mass dismissal", "mass redundancy", "mass layoff", "layoff"):
-		return tr(lang, "Massenentlassung / Sozialplan (§ 112 BetrVG, § 17 KSchG)", "Mass dismissal / Sozialplan (§ 112 BetrVG, § 17 KSchG)")
 	default:
 		return tr(lang, "Allgemeine Betriebsratsangelegenheit", "General works council matter")
 	}
@@ -179,6 +182,21 @@ func containsAny(s string, terms ...string) bool {
 		}
 	}
 	return false
+}
+
+// containsWholeWord checks that word appears surrounded by non-letter characters.
+func containsWholeWord(s, word string) bool {
+	idx := strings.Index(s, word)
+	if idx < 0 {
+		return false
+	}
+	before := idx > 0 && isWordRune(rune(s[idx-1]))
+	after := idx+len(word) < len(s) && isWordRune(rune(s[idx+len(word)]))
+	return !before && !after
+}
+
+func isWordRune(r rune) bool {
+	return (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9')
 }
 
 func buildActionPlan(lang string, strongest betrvg.CoDeterminationType, situation string, paragraphs []betrvg.Paragraph) []decisionAction {

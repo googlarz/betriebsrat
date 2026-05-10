@@ -2,6 +2,8 @@
 // Betriebsverfassungsgesetz (BetrVG) for works council (Betriebsrat) advisory.
 package betrvg
 
+import "strings"
+
 // CoDeterminationType classifies the strength of the BR's legal right.
 type CoDeterminationType string
 
@@ -47,22 +49,71 @@ func ByNumber(n int) *Paragraph {
 	return nil
 }
 
-// ByKeywords returns paragraphs whose keywords overlap with the given terms.
+// ByKeywords returns paragraphs whose keywords overlap with the given terms,
+// ordered by relevance score (most matches first).
 func ByKeywords(terms []string) []Paragraph {
-	var result []Paragraph
-	seen := map[int]bool{}
+	scored := ByKeywordsScored(terms)
+	result := make([]Paragraph, len(scored))
+	for i, s := range scored {
+		result[i] = s.Paragraph
+	}
+	return result
+}
+
+// ScoredParagraph pairs a paragraph with a relevance score.
+type ScoredParagraph struct {
+	Paragraph
+	Score int
+}
+
+// ByKeywordsScored returns paragraphs ranked by how many input terms match their keywords.
+// Exact keyword match scores 3; substring match scores 1. Multiple matches accumulate.
+func ByKeywordsScored(terms []string) []ScoredParagraph {
+	scores := map[int]int{}
 	for _, term := range terms {
 		term = normalizeTerm(term)
+		if len(term) < 3 {
+			continue
+		}
 		for _, p := range paragraphs {
-			if seen[p.Number] {
-				continue
-			}
 			for _, kw := range p.Keywords {
-				if containsFold(kw, term) || containsFold(term, kw) {
-					result = append(result, p)
-					seen[p.Number] = true
-					break
+				kwNorm := normalizeTerm(kw)
+				if kwNorm == term {
+					scores[p.Number] += 3
+				} else if strings.Contains(kwNorm, term) || strings.Contains(term, kwNorm) {
+					scores[p.Number] += 1
 				}
+			}
+		}
+	}
+
+	type pair struct{ num, score int }
+	var pairs []pair
+	for num, score := range scores {
+		if score > 0 {
+			pairs = append(pairs, pair{num, score})
+		}
+	}
+	// Sort by score descending, then paragraph number ascending for stability
+	for i := 0; i < len(pairs); i++ {
+		for j := i + 1; j < len(pairs); j++ {
+			if pairs[j].score > pairs[i].score || (pairs[j].score == pairs[i].score && pairs[j].num < pairs[i].num) {
+				pairs[i], pairs[j] = pairs[j], pairs[i]
+			}
+		}
+	}
+
+	seen := map[int]bool{}
+	var result []ScoredParagraph
+	for _, pr := range pairs {
+		if seen[pr.num] {
+			continue
+		}
+		for i := range paragraphs {
+			if paragraphs[i].Number == pr.num {
+				result = append(result, ScoredParagraph{paragraphs[i], pr.score})
+				seen[pr.num] = true
+				break
 			}
 		}
 	}
@@ -182,7 +233,7 @@ var paragraphs = []Paragraph{
 		Number:       87,
 		Title:        "Mitbestimmungsrechte (Soziale Angelegenheiten)",
 		Summary:      "Der BR hat in sozialen Angelegenheiten erzwingbare Mitbestimmungsrechte. Dazu gehören: Arbeitszeit, Überstunden, Urlaubsregelung, Überwachungssoftware/-technik (Nr. 6), Lohngestaltung, Betriebsordnung, mobiles Arbeiten (Nr. 14).",
-		Keywords:     []string{"überstunden", "arbeitszeit", "urlaub", "urlaubsregelung", "überwachung", "monitoring", "kamera", "zeiterfassung", "homeoffice", "remote work", "mobiles arbeiten", "lohn", "vergütung", "betriebsordnung", "software überwachung", "leistungsüberwachung", "verhaltensüberwachung", "ki", "künstliche intelligenz", "schichtplan", "dienstplan", "führt ein", "einführung", "einführt", "überwacht", "trackt", "protokolliert"},
+		Keywords:     []string{"überstunden", "arbeitszeit", "urlaub", "urlaubsregelung", "überwachung", "monitoring", "kamera", "zeiterfassung", "homeoffice", "remote work", "mobiles arbeiten", "lohn", "vergütung", "betriebsordnung", "software überwachung", "leistungsüberwachung", "verhaltensüberwachung", "ki", "künstliche intelligenz", "schichtplan", "dienstplan", "führt ein", "einführung", "einführt", "überwacht", "trackt", "protokolliert", "analytics", "tracking", "telemetry", "surveillance", "co-determination", "performance tracking", "it system", "ai system", "artificial intelligence", "workforce analytics", "people analytics"},
 		CoDetermType: MitbestimmungErzwingbar,
 		TopicSlug:    "betriebsverfassungsrecht",
 		TopicURL:     "https://www.betriebsrat.de/br/themen/betriebsverfassungsrecht/uebersicht",

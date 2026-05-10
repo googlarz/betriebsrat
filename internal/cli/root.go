@@ -107,6 +107,8 @@ Highlights (not in the official API docs):
   • schulungsantrag         Generates a formal BR training request letter under § 37 Abs. 6 BetrVG with cost/release justification
   • tarifvertrag-check      Checks whether § 77 Abs. 3 Tarifvorbehalt blocks a planned Betriebsvereinbarung
   • bv-template videoüberwachung/leistungsbeurteilung  Two new BV skeleton templates (camera surveillance, performance appraisal)
+  • ask                     Natural-language entry point — describe your situation, no command knowledge required
+  • serve                   Local web UI — chat interface for employees and BR members without terminal access
 
 Language: use --lang en for English output on any command. Legal documents always remain in German.
 
@@ -229,6 +231,8 @@ See README.md or the bundled SKILL.md for recipes.`,
 	rootCmd.AddCommand(newNachteilsausgleichCmd(flags))
 	rootCmd.AddCommand(newSchulungsantragCmd(flags))
 	rootCmd.AddCommand(newTarifvertragCheckCmd(flags))
+	rootCmd.AddCommand(newAskCmd(flags))
+	rootCmd.AddCommand(newServeCmd(flags))
 
 	return rootCmd
 }

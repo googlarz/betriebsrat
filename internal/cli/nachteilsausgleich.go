@@ -160,6 +160,9 @@ Calculation: by analogy to § 10 KSchG (severance formula); statutory cap: 12 mo
 				tr(flags.lang, "Rechtsgrundlage", "Legal basis"), r.LegalBasis)
 			fmt.Fprintf(w, "%s: %s\n",
 				tr(flags.lang, "Hinweis", "Note"), r.Note)
+			fmt.Fprintf(w, "\n⚠️  %s\n", tr(flags.lang,
+				"SCHÄTZUNG. Der tatsächliche Anspruch hängt von den konkreten Umständen ab. Konsultieren Sie einen Fachanwalt für Arbeitsrecht.",
+				"ESTIMATE ONLY. The actual claim depends on the specific circumstances. Consult a labour law specialist."))
 			return nil
 		},
 	}
