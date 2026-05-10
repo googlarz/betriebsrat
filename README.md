@@ -10,23 +10,49 @@ German labour law is full of rights most people don't know they have. This tool 
 
 ## What can I ask?
 
-Just describe your situation in your own words. Some examples:
+Just describe your situation. Here are examples of what the tool considers when answering:
 
 **As an employee:**
-- "I received a dismissal notice. Was the works council properly consulted?"
-- "My employer is restructuring — what am I entitled to?"
-- "What is a Betriebsrat and what can it do for me?"
-- "I was transferred to a different location without my agreement. Is that allowed?"
-- "Can I get severance? I've worked here 7 years and earn €3,500 a month."
-- "I'm pregnant and my employer wants to end my contract."
-- "My employer introduced monitoring software. Did the works council have to agree?"
+
+> "Can I get severance? I've worked here 7 years and earn €3,500 a month."
+
+Based on 7 years and €3,500/month, the Munich formula estimates around €12,250. Whether you can claim it depends on whether a Sozialplan was agreed — or bypassed.
+
+> "I received a dismissal notice. Was the works council properly consulted?"
+
+The works council must be heard before every dismissal (§ 102 BetrVG). If the employer skipped this step or gave incomplete information, the dismissal is invalid — regardless of the stated reason.
+
+> "I'm pregnant and my employer wants to end my contract."
+
+Termination during pregnancy is prohibited under the Mutterschutzgesetz — even if the employer doesn't know yet. You have 2 weeks after receiving the notice to inform them, and the protection applies retroactively.
+
+> "My employer introduced monitoring software. Did the works council have to agree?"
+
+Yes — any software that can track performance or behaviour requires works council consent (§ 87 BetrVG). If it was rolled out without agreement, the BR can demand it be stopped.
+
+> "I was transferred to a different location without my agreement. Is that allowed?"
+
+Transfers require works council approval (§ 99 BetrVG). If the BR wasn't consulted, or the new location significantly changes your working conditions, the transfer can be challenged.
+
+---
 
 **As a works council member:**
-- "We received a dismissal hearing notice. What must we do and by when?"
-- "The employer wants to introduce an AI writing assistant. Do we have co-determination rights?"
-- "We're facing a mass layoff of 20 people. What's our role?"
-- "Can we force a Sozialplan if the employer refuses to negotiate?"
-- "We want to negotiate a remote work agreement. Where do we start?"
+
+> "We received a dismissal hearing notice. What must we do and by when?"
+
+You have 1 week for ordinary dismissals, 3 days for immediate ones. Check that the employer provided complete social data and a reason. Objecting gives the employee a right to continued employment while the dispute is pending.
+
+> "The employer wants to introduce an AI writing assistant. Do we have co-determination rights?"
+
+Yes, under § 87 Abs. 1 Nr. 6 BetrVG if the tool can monitor output or behaviour — even indirectly. You should negotiate a Betriebsvereinbarung covering purpose, data access, and retention before rollout begins.
+
+> "We're facing a mass layoff of 20 people. What's our role?"
+
+The employer must consult you at least 30 days before filing the mass layoff notice with the employment agency. You can negotiate a Sozialplan — and force one through the Einigungsstelle if the employer refuses.
+
+> "Can we force a Sozialplan if the employer refuses to negotiate?"
+
+Yes. Under § 112 Abs. 4 BetrVG, the Sozialplan is erzwingbar — you can call the Einigungsstelle, which will set binding terms if negotiations fail.
 
 ---
 
@@ -121,23 +147,49 @@ Das deutsche Arbeitsrecht steckt voller Rechte, von denen die meisten Menschen n
 
 ## Was kann ich fragen?
 
-Beschreiben Sie Ihre Situation einfach in Ihren eigenen Worten. Ein paar Beispiele:
+Beschreiben Sie einfach Ihre Situation. Hier sind Beispiele dafür, was das Tool bei der Antwort berücksichtigt:
 
 **Als Arbeitnehmer:**
-- „Ich habe eine Kündigung erhalten. Wurde der Betriebsrat ordnungsgemäß angehört?"
-- „Mein Arbeitgeber restrukturiert den Betrieb — was steht mir zu?"
-- „Was ist ein Betriebsrat und was kann er für mich tun?"
-- „Ich wurde ohne mein Einverständnis versetzt. Ist das erlaubt?"
-- „Habe ich Anspruch auf eine Abfindung? Ich arbeite hier seit 7 Jahren und verdiene 3.500 € monatlich."
-- „Ich bin schwanger und mein Arbeitgeber will meinen Vertrag beenden."
-- „Mein Arbeitgeber hat eine Überwachungssoftware eingeführt. Musste der Betriebsrat zustimmen?"
+
+> „Habe ich Anspruch auf eine Abfindung? Ich arbeite hier seit 7 Jahren und verdiene 3.500 € monatlich."
+
+Nach der Münchner Formel ergibt sich bei 7 Jahren und 3.500 € ein Richtwert von ca. 12.250 €. Ob ein Anspruch besteht, hängt davon ab, ob ein Sozialplan vereinbart wurde — oder übergangen wurde.
+
+> „Ich habe eine Kündigung erhalten. Wurde der Betriebsrat ordnungsgemäß angehört?"
+
+Vor jeder Kündigung muss der Betriebsrat angehört werden (§ 102 BetrVG). Fehlt die Anhörung oder waren die Angaben unvollständig, ist die Kündigung unwirksam — unabhängig vom angegebenen Grund.
+
+> „Ich bin schwanger und mein Arbeitgeber will meinen Vertrag beenden."
+
+Eine Kündigung während der Schwangerschaft ist nach dem Mutterschutzgesetz verboten — auch wenn der Arbeitgeber davon noch nichts weiß. Sie haben nach Erhalt der Kündigung 2 Wochen Zeit, ihn zu informieren; der Schutz gilt rückwirkend.
+
+> „Mein Arbeitgeber hat eine Überwachungssoftware eingeführt. Musste der Betriebsrat zustimmen?"
+
+Ja — jede Software, die Leistung oder Verhalten erfassen kann, bedarf der Zustimmung des Betriebsrats (§ 87 BetrVG). Wurde sie ohne Einigung eingeführt, kann der BR verlangen, dass der Einsatz gestoppt wird.
+
+> „Ich wurde ohne mein Einverständnis versetzt. Ist das erlaubt?"
+
+Versetzungen bedürfen der Zustimmung des Betriebsrats (§ 99 BetrVG). Wurde dieser nicht beteiligt oder ändern sich die Arbeitsbedingungen wesentlich, kann die Versetzung angefochten werden.
+
+---
 
 **Als Betriebsratsmitglied:**
-- „Wir haben ein Anhörungsschreiben für eine Kündigung erhalten. Was müssen wir tun und bis wann?"
-- „Der Arbeitgeber will einen KI-Schreibassistenten einführen. Haben wir ein Mitbestimmungsrecht?"
-- „Uns droht eine Massenentlassung von 20 Personen. Was ist unsere Rolle?"
-- „Können wir einen Sozialplan erzwingen, wenn der Arbeitgeber nicht verhandeln will?"
-- „Wir wollen eine Homeoffice-Regelung aushandeln. Wo fangen wir an?"
+
+> „Wir haben ein Anhörungsschreiben für eine Kündigung erhalten. Was müssen wir tun und bis wann?"
+
+Bei ordentlichen Kündigungen haben Sie 1 Woche, bei fristlosen 3 Tage. Prüfen Sie, ob Sozialdaten und Kündigungsgrund vollständig angegeben wurden. Ein Widerspruch gibt dem Arbeitnehmer das Recht auf Weiterbeschäftigung während eines laufenden Verfahrens.
+
+> „Der Arbeitgeber will einen KI-Schreibassistenten einführen. Haben wir ein Mitbestimmungsrecht?"
+
+Ja, nach § 87 Abs. 1 Nr. 6 BetrVG, wenn das Tool Leistung oder Verhalten — auch mittelbar — erfassen kann. Handeln Sie eine Betriebsvereinbarung zu Zweck, Datenzugriff und Löschfristen aus, bevor die Einführung beginnt.
+
+> „Uns droht eine Massenentlassung von 20 Personen. Was ist unsere Rolle?"
+
+Der Arbeitgeber muss Sie mindestens 30 Tage vor Einreichung der Massenentlassungsanzeige bei der Agentur für Arbeit konsultieren. Sie können einen Sozialplan verhandeln — und ihn über die Einigungsstelle erzwingen, wenn der Arbeitgeber die Verhandlung verweigert.
+
+> „Können wir einen Sozialplan erzwingen, wenn der Arbeitgeber nicht verhandeln will?"
+
+Ja. Nach § 112 Abs. 4 BetrVG ist der Sozialplan erzwingbar — Sie können die Einigungsstelle anrufen, die bei gescheiterten Verhandlungen verbindliche Bedingungen festlegt.
 
 ---
 
